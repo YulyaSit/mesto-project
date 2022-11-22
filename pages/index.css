@@ -1,0 +1,45 @@
+@import url(../vendor/normalize.css);
+@import url(../vendor/fonts.css);
+@import url(../blocks/page/page.css);
+
+@import url(../blocks/container/container.css);
+
+@import url(../blocks/header/__logo/header__logo.css);
+@import url(../blocks/header/__image-logo/header__image-logo.css);
+
+@import url(../blocks/content/content.css);
+
+@import url(../blocks/profile/profile.css);
+@import url(../blocks/profile/__name/profile__name.css);
+@import url(../blocks/profile/__avatar/profile__avatar.css);
+@import url(../blocks/profile/__info/profile__info.css);
+@import url(../blocks/profile/__profession/profile__profession.css);
+@import url(../blocks/profile/__button-add/profile__button-add.css);
+@import url(../blocks/profile/__button-edit/profile__button-edit.css);
+@import url(../blocks/profile/__icon-edit/profile__icon-edit.css);
+
+@import url(../blocks/cards/cards.css);
+@import url(../blocks/card/card.css);
+@import url(../blocks/card/__image/card__image.css);
+@import url(../blocks/card/__container/card__container.css);
+@import url(../blocks/card/__name/card__name.css);
+@import url(../blocks/card/__button-like/card__button-like.css);
+
+@import url(../blocks/footer/footer.css);
+@import url(../blocks/footer/__container/footer__container.css);
+@import url(../blocks/footer/__text/footer__text.css);
+
+@import url(../blocks/form/form.css);
+@import url(../blocks/popup/__block-center/popup__block-center.css);
+@import url(../blocks/popup/__button/popup__button.css);
+@import url(../blocks/popup/__container/popup__container.css);
+@import url(../blocks/popup/__edit-profile/popup__edit-profile.css);
+@import url(../blocks/popup/__heading/popup__heading.css);
+@import url(../blocks/popup/__name/popup__name.css);
+@import url(../blocks/popup/__profession/popup__profession.css);
+@import url(../blocks/popup/__submit/popup__submit.css);
+@import url(../blocks/popup/popup.css);
+@import url(../blocks/popup/__profile/popup__profile.css);
+@import url(../blocks/popup/__button-close/popup__button-close.css);
+@import url(../blocks/popup/_opened/popup_opened.css);
+@import url(../blocks/popup/__close/popup__close.css);

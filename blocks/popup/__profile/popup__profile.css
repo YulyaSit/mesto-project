@@ -1,0 +1,13 @@
+.popup__profile {
+  display: grid;
+  width: 470px;
+  grid-template-columns: 1fr;
+  grid-template-rows: min-content min-content;
+}
+
+
+@media screen and (max-width: 600px) {
+  .popup__profile {
+    width: 282px;
+  }
+}

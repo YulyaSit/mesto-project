@@ -1,0 +1,14 @@
+.header__logo {
+    width: 100%;
+    margin-top: 45px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    border-bottom: 1px solid #545454;
+}
+
+
+@media screen and (max-width: 580px) {
+    .header__logo {
+        margin-top: 28px;
+    }
+}

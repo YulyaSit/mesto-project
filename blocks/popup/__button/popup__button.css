@@ -1,0 +1,17 @@
+.popup__button {
+  max-width: 358px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background-color: black;
+  color: white;
+  padding: 14px 124px 18px 125px;
+}
+
+@media screen and (max-width: 600px) {
+  .popup__button {
+    max-width: 238px;
+    width: 100%;
+    padding: 14px 82px;
+  }
+}
