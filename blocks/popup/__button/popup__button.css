@@ -5,13 +5,20 @@
   border: 0;
   background-color: black;
   color: white;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
   padding: 14px 124px 18px 125px;
+  border-radius: 2px;
 }
+
 
 @media screen and (max-width: 600px) {
   .popup__button {
     max-width: 238px;
     width: 100%;
     padding: 14px 82px;
+    font-size: 14px;
+    line-height: 17px;
   }
 }

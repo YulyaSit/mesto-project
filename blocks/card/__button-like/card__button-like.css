@@ -6,8 +6,3 @@
     background-color: white;
     justify-self: end;
 }
-
-.card__button-like:hover {
-  opacity: .5;
-  transition: opacity .5s;
-}

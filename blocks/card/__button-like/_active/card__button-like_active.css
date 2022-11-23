@@ -1,0 +1,4 @@
+.card__button-like_active:hover {
+  opacity: .5;
+  transition: opacity .5s;
+}

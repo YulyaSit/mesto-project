@@ -1,14 +1,24 @@
 .header__logo {
-    width: 100%;
     margin-top: 45px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    border-bottom: 1px solid #545454;
+    padding-bottom: 41px;
+    padding-right: 738px;
+    border-bottom: 1px solid rgba(33, 33, 33, .7);
+}
+
+@media screen and (max-width: 699px) {
+  .header__logo {
+    padding-right: 451px;
+  }
 }
 
 
 @media screen and (max-width: 580px) {
     .header__logo {
         margin-top: 28px;
+        padding-left: 27px;
+        padding-bottom: 31px;
+        padding-right: 220px;
+        width: 103px;
+        height: 24px;
     }
 }

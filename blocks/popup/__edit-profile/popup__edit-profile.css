@@ -3,4 +3,11 @@
   margin: 0;
   margin-bottom: 48px;
   border: 0;
+  margin-left: 36px;
+}
+
+@media screen and (max-width: 600px) {
+  .popup__edit-profile {
+    margin-left: 22px;
+  }
 }

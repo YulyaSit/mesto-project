@@ -10,11 +10,6 @@
     margin-top: 15px;
 }
 
-.profile__button-edit:hover {
-  opacity: .6;
-  transition: opacity .5s;
-}
-
 @media screen  and (max-width: 699px) {
     .profile__button-edit {
         margin-right: 25px;
@@ -24,8 +19,12 @@
 @media screen and (max-width: 580px) {
     .profile__button-edit {
         margin-top: 8px;
-        height: 18px;
+        max-height: 18px;
+        height: 100%;
         width: 18px;
         margin-right: 19px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 }
