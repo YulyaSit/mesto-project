@@ -5,12 +5,17 @@
     border-bottom: 1px solid rgba(33, 33, 33, .7);
 }
 
+@media screen and (max-width: 888px) {
+  .header__logo {
+    padding-right: 570px;
+  }
+}
+
 @media screen and (max-width: 699px) {
   .header__logo {
     padding-right: 451px;
   }
 }
-
 
 @media screen and (max-width: 580px) {
     .header__logo {
