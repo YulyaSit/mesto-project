@@ -1,0 +1,35 @@
+.header__logo {
+    margin-top: 45px;
+    padding-bottom: 41px;
+    padding-right: 738px;
+    border-bottom: 1px solid rgba(33, 33, 33, .7);
+}
+
+@media screen and (max-width: 888px) {
+  .header__logo {
+    padding-right: 570px;
+  }
+}
+
+@media screen and (max-width: 734px) {
+  .header__logo {
+    padding-right: 500px;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .header__logo {
+    padding-right: 440px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+    .header__logo {
+        margin-top: 28px;
+        padding-left: 27px;
+        padding-bottom: 31px;
+        padding-right: 190px;
+        width: 103px;
+        height: 24px;
+    }
+}
