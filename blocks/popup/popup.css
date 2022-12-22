@@ -1,5 +1,4 @@
 .popup {
-  display: none;
   max-width: 880px;
   width: 100%;
   background-color: rgb(0%, 0%, 0%, .5);
@@ -8,4 +7,6 @@
   justify-content: center;
   height: 100%;
   align-items: center;
+  visibility: hidden;
+  opacity: 0;
 }

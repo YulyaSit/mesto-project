@@ -1,6 +1,8 @@
 .card__image {
     border-start-start-radius: 10px;
     border-top-right-radius: 10px;
+    grid-row: 1/2;
+    grid-column: 1/2;
     width: 282px;
     height: 282px;
     object-fit: cover;
