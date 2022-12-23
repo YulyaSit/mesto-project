@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Место</title>
   <link rel="stylesheet" href="./pages/index.css">
-  <link rel="javascript" href="./script.js">
+  <link rel="javascript" href="./scripts/script.js">
 </head>
 <body class="page">
   <div class="container">
@@ -40,8 +40,8 @@
     </footer>
     <div class="popup" id="popup-edit">
         <div class="popup__profile">
-          <button type="button" class="popup__button-close popup__button-close_active"><img src="./images/CloseIcon.png" class="popup__close" alt="крестик"></button>
-          <form class="popup__container popup__container_edit" name="popup-form">
+          <button type="button" class="popup__button-close popup__button-close_active"></button>
+          <form class="popup__container popup__container_edit" name="popup-form-edit">
               <h2 class="popup__heading">
                 Редактировать профиль</h2>
                 <fieldset class="popup__edit-profile">
@@ -54,8 +54,8 @@
     </div>
     <div class="popup" id="popup-add">
       <div class="popup__profile">
-        <button type="button" id="popup__add-close" class="popup__button-close popup__button-close_active"><img src="./images/CloseIcon.png" class="popup__close" alt="крестик"></button>
-        <form class="popup__container popup__container_add" name="popup-form">
+        <button type="button" class="popup__button-close popup__button-close_active"></button>
+        <form class="popup__container popup__container_add" name="popup-form-add">
             <h2 class="popup__heading">
               Новое место</h2>
               <fieldset class="popup__edit-profile">
@@ -74,6 +74,6 @@
       </div>
     </div>
   </div>
- <script src="script.js"></script>
+ <script src="./scripts/script.js"></script>
 </body>
 </html>

@@ -2,13 +2,12 @@
   justify-self: flex-end;
   padding: 0;
   border: 0;
-  max-height: 32px;
-  min-width: 32px;
+  height: 32px;
+  width: 32px;
   border-bottom: 0;
   background: transparent;
+  background-image: url(../../../images/CloseIIIIIIIIIIIIcon.svg);
 }
-
-
 
 @media screen and (max-width: 600px) {
   .popup__button-close {

@@ -9,8 +9,8 @@
     position: absolute;
     margin-right: -38px;
     margin-top: -38px;
-}
-.popup__image-close:hover {
+  }
+  .popup__image-close:hover {
     opacity: .8;
     transition: opacity .5s;
   }
@@ -24,4 +24,4 @@
         background-position: center;
         background-size: contain;
     }
-}
+  }
