@@ -1,8 +1,9 @@
 .popup__profile {
   display: grid;
-  width: 470px;
+  width: 430px;
   grid-template-columns: 1fr;
   grid-template-rows: min-content min-content;
+  position:relative;
 }
 
 

@@ -40,10 +40,8 @@
 @import url(../blocks/popup/__button-close/popup__button-close.css);
 @import url(../blocks/popup/_opened/popup_opened.css);
 @import url(../blocks/popup/__edit-profile/popup__edit-profile.css);
-@import url(../blocks/popup/__button-close/_active/popup__button-close_active.css);
 
 
 @import url(../blocks/popup/__container-image/popup__container-image.css);
-@import url(../blocks/popup/__image-close/popup__image-close.css);
 @import url(../blocks/popup/__image/popup__image.css);
 @import url(../blocks/popup/__text/popup__text.css);

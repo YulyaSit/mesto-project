@@ -1,6 +1,5 @@
 //находим элементы
 const editProfileButton = document.querySelector('.profile__button-edit')  //кнопка редактирования профиля
-const popup = document.querySelector('.popup')  //общий класс попапа для универсальной функции
 const popupEditProfile = document.querySelector('#popup-edit') //попап Редактирования профиля
 const addCardButton = document.querySelector('.profile__button-add')  //кнопка добавления карточки
 const popupAdd = document.querySelector('#popup-add')  //попап добавления карточки
@@ -122,7 +121,7 @@ function handleProfileFormSubmit(evt) {
     // Вставьте новые значения с помощью textContent
     profileName.textContent = nameInput.value;
     profileProfession.textContent = jobInput.value;
-    closePopup(popup);
+    closePopup(popupEditProfile);
 }
 
 // Прикрепляем обработчик к форме:
@@ -144,7 +143,3 @@ function handleFormSubmitAdd(evt) {
     evt.target.reset() //очищает инпуты после добавления картинки
 }
 formElementAdd.addEventListener('submit', handleFormSubmitAdd); 
-
-closePicture.addEventListener('click', function(){ //закрытие попапа с картинкой
-  closePopup(popupPicture)
-})
