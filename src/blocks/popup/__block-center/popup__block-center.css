@@ -1,0 +1,11 @@
+.popup__block-center {
+  margin-left: 36px;
+  padding-top: 34px;
+}
+
+@media screen and (max-width: 600px) {
+  .popup__block-center {
+      margin-left: 22px;
+      padding-top: 25px;
+  }
+}

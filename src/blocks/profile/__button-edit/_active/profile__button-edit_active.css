@@ -1,0 +1,4 @@
+.profile__button-edit_active:hover {
+  opacity: .6;
+  transition: opacity .5s;
+}
