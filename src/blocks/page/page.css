@@ -4,6 +4,7 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   background-color: #000000;
-  max-width: 1280px;
+  max-width: 1440px;
+  width: 100%;
   margin: 0 auto;
 }

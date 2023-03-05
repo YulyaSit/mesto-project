@@ -1,3 +1,5 @@
+  import { popupEditProfile, popupAdd, popupPicture } from "../index.js";
+  
   function openPopup(popup) {   //создаем универсальную функцию открытия попапа
     popup.classList.add('popup_opened'); //добавляем класс чтобы он срабатывал при открытии попапа
   };

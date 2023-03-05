@@ -21,7 +21,12 @@ function handleFormSubmitAdd(evt) {
     // Так мы можем определить свою логику отправки.
     cardsMain.prepend(createCards(linkImageInput.value, nameImageInput.value))
     closePopup(popupAdd);
-    evt.target.reset() //очищает инпуты после добавления картинки
+    evt.target.reset()//очищает инпуты после добавления картинки
 }
 
-export {handleFormSubmitAdd, handleProfileFormSubmit};
+function disabledButton (selectors, disabledButtonAdd) {
+    disabledButtonAdd.disabled = true; //свойство disabled для отключения кнопки
+    disabledButtonAdd.classList.add(selectors.inactiveButtonClass); //сделай кнопку неактивной
+  };
+
+export {handleFormSubmitAdd, handleProfileFormSubmit, disabledButton};

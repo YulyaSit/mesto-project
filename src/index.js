@@ -17,6 +17,7 @@ export const profileProfession = document.querySelector('.profile__profession');
 const formElementAdd = document.forms["popup-form-add"]; //форма добавления карточки
 export const nameImageInput = popupAdd.querySelector('.popup__name_image'); //инпут с названием карточи
 export const linkImageInput = popupAdd.querySelector('.popup__name_link'); //инпут с ссылкой карточки
+export const disabledButtonAdd = popupAdd.querySelector('.popup__button') // кнопка сабмит у попапа карточки
 const initialCards = [
   {
     name: 'Рыбов мне!',
@@ -52,7 +53,7 @@ export const selectors =
    inputErrorClass: 'popup__name_invalid',
    errorClass: 'popup__input-error_active' };
 
-import {openPopup, closePopup, keyHandler} from './components/modal.js'
+import { openPopup, closePopup, keyHandler} from './components/modal.js'
 
 editProfileButton.addEventListener('click', function() { //навешиваем слушатель, при клике на кнопку редактирования профиля срабатывает универсальная функция открытия попапа
   openPopup(popupEditProfile);
@@ -67,9 +68,14 @@ closeButtons.forEach((button) => {
   button.addEventListener('click', () => closePopup(popup));
 });
 
+
+
 addCardButton.addEventListener('click', function(){ //слушатель на кнопку открытия попапа добавления карточки
-  openPopup(popupAdd)
-})
+  openPopup(popupAdd);
+  disabledButton (selectors, disabledButtonAdd);
+});
+
+import { disabledButton } from './components/utils.js';
 
 import { createCards } from './components/card.js';
   
