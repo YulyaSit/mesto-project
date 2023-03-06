@@ -1,4 +1,4 @@
-import  './pages/index.css'
+import './pages/index.css'
 const editProfileButton = document.querySelector('.profile__button-edit');  //кнопка редактирования профиля
 export const popupEditProfile = document.querySelector('#popup-edit'); //попап Редактирования профиля
 const addCardButton = document.querySelector('.profile__button-add');  //кнопка добавления карточки
@@ -46,16 +46,18 @@ const initialCards = [
 ]; //массив по ТЗ
 
 export const selectors =
-{ formSelector: '.form',
-   inputSelector: '.popup__name',
-   submitButtonSelector: '.popup__button',
-   inactiveButtonClass: 'popup__button_inactive',
-   inputErrorClass: 'popup__name_invalid',
-   errorClass: 'popup__input-error_active' };
+{
+  formSelector: '.form',
+  inputSelector: '.popup__name',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_inactive',
+  inputErrorClass: 'popup__name_invalid',
+  errorClass: 'popup__input-error_active'
+};
 
-import { openPopup, closePopup, keyHandler} from './components/modal.js'
+import { openPopup, closePopup } from './components/utils.js';
 
-editProfileButton.addEventListener('click', function() { //навешиваем слушатель, при клике на кнопку редактирования профиля срабатывает универсальная функция открытия попапа
+editProfileButton.addEventListener('mousedown', function () { //навешиваем слушатель, при клике на кнопку редактирования профиля срабатывает универсальная функция открытия попапа
   openPopup(popupEditProfile);
   nameInput.value = profileName.textContent; //привязываем к полям ввода текста значения, которые будут при активных значениях
   jobInput.value = profileProfession.textContent; // -//-//-
@@ -65,54 +67,56 @@ closeButtons.forEach((button) => {
   // находим 1 раз ближайший к крестику попап 
   const popup = button.closest('.popup');
   // устанавливаем обработчик закрытия на крестик
-  button.addEventListener('click', () => closePopup(popup));
+  button.addEventListener('mousedown', () => closePopup(popup));
 });
 
-
-
-addCardButton.addEventListener('click', function(){ //слушатель на кнопку открытия попапа добавления карточки
+addCardButton.addEventListener('click', function () { //слушатель на кнопку открытия попапа добавления карточки
   openPopup(popupAdd);
-  disabledButton (selectors, disabledButtonAdd);
 });
 
-import { disabledButton } from './components/utils.js';
+import { createCard } from './components/card.js';
 
-import { createCards } from './components/card.js';
-  
 //чтобы карточки приняли новые значения, мы делаем перебор с помощью метода forEach и вставляем новые карточки в общий контейнер
-initialCards.forEach(function(item){
-    cardsMain.append(createCards(item.link, item.name));
+initialCards.forEach(function (item) {
+  cardsMain.append(createCard(item.link, item.name));
 });
 
-cardsMain.addEventListener('click', function (evt) {
-  if (evt.target.classList.contains('card__button-like')) {
-    evt.target.classList.toggle('card__button-like_active');
-  };
-});
+// Обработчик «отправки» формы, хотя пока
+// она никуда отправляться не будет
+function handleProfileFormSubmit(evt) {
+  evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
+  // Так мы можем определить свою логику отправки.
 
-import { handleFormSubmitAdd, handleProfileFormSubmit } from './components/utils.js';
+  // Получите значение полей jobInput и nameInput из свойства value
+  // Выберите элементы, куда должны быть вставлены значения полей
+  // Вставьте новые значения с помощью textContent
+  profileName.textContent = nameInput.value;
+  profileProfession.textContent = jobInput.value;
+  closePopup(popupEditProfile);
+}
+
+//функция для создания новой карточки через попап
+function handleFormSubmitAdd(evt) {
+  evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
+  // Так мы можем определить свою логику отправки.
+  cardsMain.prepend(createCard(linkImageInput.value, nameImageInput.value))
+  closePopup(popupAdd);
+  evt.target.reset();
+}
 
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
-profileForm.addEventListener('submit', handleProfileFormSubmit); 
-formElementAdd.addEventListener('submit', handleFormSubmitAdd); 
+profileForm.addEventListener('submit', handleProfileFormSubmit);
+formElementAdd.addEventListener('submit', handleFormSubmitAdd);
 
-document.addEventListener('keydown', keyHandler); //навесили на весь документ html слушатель нажатия кнопки и функции с условием
+const popups = document.querySelectorAll('.popup')
 
-popupAdd.addEventListener ('mousedown', (evt) => {
-  closePopup(evt.target);
-});
+popups.forEach(popup => {
+  popup.addEventListener('mousedown', (evt) => {
+    closePopup(evt.target)
+  })
+})
 
-popupEditProfile.addEventListener('mousedown', (evt) => {
-  closePopup(evt.target);
-});
-
-popupPicture.addEventListener('mousedown', (evt) => {
-  closePopup(evt.target);
-});
-
-
-  
 enableValidation(selectors); //вызываем функцию чтобы валидация работала на всех формах
 
 import { enableValidation } from './components/validate.js';
