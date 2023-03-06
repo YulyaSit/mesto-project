@@ -18,6 +18,7 @@ const formElementAdd = document.forms["popup-form-add"]; //форма добав
 export const nameImageInput = popupAdd.querySelector('.popup__name_image'); //инпут с названием карточи
 export const linkImageInput = popupAdd.querySelector('.popup__name_link'); //инпут с ссылкой карточки
 export const disabledButtonAdd = popupAdd.querySelector('.popup__button') // кнопка сабмит у попапа карточки
+const popups = document.querySelectorAll('.popup'); //все попапы
 const initialCards = [
   {
     name: 'Рыбов мне!',
@@ -108,8 +109,6 @@ function handleFormSubmitAdd(evt) {
 // он будет следить за событием “submit” - «отправка»
 profileForm.addEventListener('submit', handleProfileFormSubmit);
 formElementAdd.addEventListener('submit', handleFormSubmitAdd);
-
-const popups = document.querySelectorAll('.popup')
 
 popups.forEach(popup => {
   popup.addEventListener('mousedown', (evt) => {
