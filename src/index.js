@@ -58,7 +58,7 @@ export const selectors =
 
 import { openPopup, closePopup } from './components/utils.js';
 
-editProfileButton.addEventListener('mousedown', function () { //навешиваем слушатель, при клике на кнопку редактирования профиля срабатывает универсальная функция открытия попапа
+editProfileButton.addEventListener('click', function () { //навешиваем слушатель, при клике на кнопку редактирования профиля срабатывает универсальная функция открытия попапа
   openPopup(popupEditProfile);
   nameInput.value = profileName.textContent; //привязываем к полям ввода текста значения, которые будут при активных значениях
   jobInput.value = profileProfession.textContent; // -//-//-
@@ -68,7 +68,7 @@ closeButtons.forEach((button) => {
   // находим 1 раз ближайший к крестику попап 
   const popup = button.closest('.popup');
   // устанавливаем обработчик закрытия на крестик
-  button.addEventListener('mousedown', () => closePopup(popup));
+  button.addEventListener('click', () => closePopup(popup));
 });
 
 addCardButton.addEventListener('click', function () { //слушатель на кнопку открытия попапа добавления карточки
@@ -112,9 +112,11 @@ formElementAdd.addEventListener('submit', handleFormSubmitAdd);
 
 popups.forEach(popup => {
   popup.addEventListener('mousedown', (evt) => {
-    closePopup(evt.target)
+    if (evt.target.classList.contains('popup_opened')) {
+      closePopup(popup);
+    };
   })
-})
+});
 
 enableValidation(selectors); //вызываем функцию чтобы валидация работала на всех формах
 
