@@ -1,0 +1,28 @@
+.profile__container {
+    border-radius: 50%;
+    grid-column: 1/2;
+    grid-row: 1/2;
+    background-color: rgba(0, 0, 0, .8);
+    max-width: 120px;
+    max-height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+}
+
+.profile__container:hover {
+    visibility: visible;
+}
+
+@media screen and (max-width: 699px) {
+    .profile__container {
+        margin-left: 25px;
+    }
+}
+
+@media screen and (max-width: 580px) {
+    .profile__container {
+        margin-left: 82px;
+    }
+}

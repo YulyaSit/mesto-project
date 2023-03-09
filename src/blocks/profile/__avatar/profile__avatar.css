@@ -6,6 +6,10 @@
     grid-row: 1/2;
 }
 
+.profile__avatar:hover + .profile__container {
+    visibility: visible;
+}
+
 @media screen and (max-width: 699px) {
     .profile__avatar {
         margin-left: 25px;

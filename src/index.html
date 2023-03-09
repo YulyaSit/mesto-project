@@ -14,6 +14,9 @@
     <main class="content">
       <section class="profile">
         <img class="profile__avatar" src="<%=require('./images/image.jpg')%>" alt="жак-ив-кусто">
+        <div class="profile__container">
+          <img class="profile__avatar-edit" src="<%=require('./images/карандаш_на_аву.svg')%>" alt="карандаш редактирования">
+        </div>
         <div class="profile__info">
           <h1 class="profile__name">Жак-Ив Кусто</h1>
           <button type="button" class="profile__button-edit profile__button-edit_active"><img class="profile__icon-edit" src="<%=require('./images/редактировать.png')%>" alt="кнопка-редактирования"></button>
@@ -91,6 +94,18 @@
       <button type="button" class="popup__button-close"></button>
       <img class="popup__image" src alt>
       <p class="popup__text"></p>
+    </div>
+  </div>
+  <div class="popup" id="popup-avatar">
+    <div class="popup__profile">
+      <button type="button" class="popup__button-close"></button>
+      <form class="popup__container popup__container_add form" name="popup-form-add" novalidate>
+          <h2 class="popup__heading">
+            Обновить аватар</h2>
+              <input id="input-four" type="url" value=""  class="popup__name popup__name_link popup__input" name="link" placeholder="Ссылка на аватар" required>
+              <span class="popup__input-error input-four-error"></span>
+              <input type="submit" class="popup__button popup__button_create" name="save" value="Сохранить">
+      </form>
     </div>
   </div>
 </body>

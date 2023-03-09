@@ -19,6 +19,8 @@ export const nameImageInput = popupAdd.querySelector('.popup__name_image'); //и
 export const linkImageInput = popupAdd.querySelector('.popup__name_link'); //инпут с ссылкой карточки
 export const disabledButtonAdd = popupAdd.querySelector('.popup__button') // кнопка сабмит у попапа карточки
 const popups = document.querySelectorAll('.popup'); //все попапы
+const clickEditProfile = document.querySelector('.profile__container')
+const popupAvatar = document.querySelector('#popup-avatar')
 const initialCards = [
   {
     name: 'Рыбов мне!',
@@ -62,6 +64,10 @@ editProfileButton.addEventListener('click', function () { //навешиваем
   openPopup(popupEditProfile);
   nameInput.value = profileName.textContent; //привязываем к полям ввода текста значения, которые будут при активных значениях
   jobInput.value = profileProfession.textContent; // -//-//-
+})
+
+clickEditProfile.addEventListener('click', function() { //открытие попапа с редактированием аватара
+  openPopup(popupAvatar)
 })
 
 closeButtons.forEach((button) => {
