@@ -22,6 +22,5 @@ export function createCard(link, name) {
     popupCaption.textContent = cardClone.textContent
     openPopup(popupPicture)
   });
-
   return cardClone;
 };

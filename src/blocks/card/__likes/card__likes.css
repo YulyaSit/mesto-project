@@ -1,0 +1,10 @@
+.card__likes {
+    grid-column: 2/3;
+    grid-row: 1/2;
+    justify-self: right;
+    margin-right: 12px;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    margin-top: 21px;
+}

@@ -20,7 +20,7 @@
         <div class="profile__info">
           <h1 class="profile__name">Жак-Ив Кусто</h1>
           <button type="button" class="profile__button-edit profile__button-edit_active"><img class="profile__icon-edit" src="<%=require('./images/редактировать.png')%>" alt="кнопка-редактирования"></button>
-          <p class="profile__profession">Исследователь океана</p>
+          <p class="profile__profession">Исследователь</p>
         </div>
         <button type="button" class="profile__button-add profile__button-add_active"><img class="profile__icon-add" src="<%=require('./images/кнопкадобавить.png')%>" alt="крестик"></button>
       </section>
@@ -30,7 +30,8 @@
           <img class="card__image" src alt>
           <div class="card__container">
             <h2 class="card__name"></h2>
-            <button type="button" class="card__button-like"></button>
+            <button type="button" class="card__button-like card__button-like_collection"></button>
+            <span class="card__likes">0</span>
           </div>
           <button class="button__urn" type="button"></button>
         </article>
@@ -99,12 +100,12 @@
   <div class="popup" id="popup-avatar">
     <div class="popup__profile">
       <button type="button" class="popup__button-close"></button>
-      <form class="popup__container popup__container_add form" name="popup-form-add" novalidate>
+      <form class="popup__container popup__container_add form" name="popup-form-avatar" novalidate>
           <h2 class="popup__heading">
             Обновить аватар</h2>
-              <input id="input-four" type="url" value=""  class="popup__name popup__name_link popup__input" name="link" placeholder="Ссылка на аватар" required>
+              <input id="input-four" type="url" value=""  class="popup__name popup__name_link popup__input link-avatar" name="link-avatar" placeholder="Ссылка на аватар" required>
               <span class="popup__input-error input-four-error"></span>
-              <input type="submit" class="popup__button popup__button_create" name="save" value="Сохранить">
+              <input type="submit" class="popup__button popup__button-avatar" name="save" value="Обновить">
       </form>
     </div>
   </div>

@@ -19,8 +19,11 @@ export const nameImageInput = popupAdd.querySelector('.popup__name_image'); //и
 export const linkImageInput = popupAdd.querySelector('.popup__name_link'); //инпут с ссылкой карточки
 export const disabledButtonAdd = popupAdd.querySelector('.popup__button') // кнопка сабмит у попапа карточки
 const popups = document.querySelectorAll('.popup'); //все попапы
-const clickEditProfile = document.querySelector('.profile__container')
+const editProfileAvatar = document.querySelector('.profile__container')
 const popupAvatar = document.querySelector('#popup-avatar')
+export const profileAvatar = document.querySelector('.profile__avatar')
+const formAvatar = document.forms['popup-form-avatar']
+const inputLink = document.querySelector('.link-avatar')
 const initialCards = [
   {
     name: 'Рыбов мне!',
@@ -57,18 +60,37 @@ export const selectors =
   inputErrorClass: 'popup__name_invalid',
   errorClass: 'popup__input-error_active'
 };
-
+import { patchEditProfile, getEditProfile } from './components/api';
 import { openPopup, closePopup } from './components/utils.js';
 
-editProfileButton.addEventListener('click', function () { //навешиваем слушатель, при клике на кнопку редактирования профиля срабатывает универсальная функция открытия попапа
-  openPopup(popupEditProfile);
-  nameInput.value = profileName.textContent; //привязываем к полям ввода текста значения, которые будут при активных значениях
-  jobInput.value = profileProfession.textContent; // -//-//-
+Promise.all([getEditProfile()])
+.then(([user]) => {
+  profileName.textContent = user.name;
+  profileProfession.textContent = user.about;
 })
 
-clickEditProfile.addEventListener('click', function() { //открытие попапа с редактированием аватара
+editProfileButton.addEventListener('click', function () {
+  //навешиваем слушатель, при клике на кнопку редактирования профиля срабатывает универсальная функция открытия попапа
+   //привязываем к полям ввода текста значения, которые будут при активных значениях
+    openPopup(popupEditProfile)
+    nameInput.value = profileName.textContent
+    jobInput.value = profileProfession.textContent
+   })
+
+editProfileAvatar.addEventListener('click', function() { //открытие попапа с редактированием аватара
   openPopup(popupAvatar)
 })
+
+
+
+function handleAvatarFormSubmit(evt) { // форма измненения авы
+  evt.preventDefault()
+  closePopup(popupAvatar)
+  profileAvatar.src = inputLink.value
+  evt.target.reset()
+};
+
+formAvatar.addEventListener('submit', handleAvatarFormSubmit)
 
 closeButtons.forEach((button) => {
   // находим 1 раз ближайший к крестику попап 
@@ -82,7 +104,6 @@ addCardButton.addEventListener('click', function () { //слушатель на 
 });
 
 import { createCard } from './components/card.js';
-
 //чтобы карточки приняли новые значения, мы делаем перебор с помощью метода forEach и вставляем новые карточки в общий контейнер
 initialCards.forEach(function (item) {
   cardsMain.append(createCard(item.link, item.name));
@@ -93,14 +114,19 @@ initialCards.forEach(function (item) {
 function handleProfileFormSubmit(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   // Так мы можем определить свою логику отправки.
-
   // Получите значение полей jobInput и nameInput из свойства value
   // Выберите элементы, куда должны быть вставлены значения полей
   // Вставьте новые значения с помощью textContent
-  profileName.textContent = nameInput.value;
-  profileProfession.textContent = jobInput.value;
-  closePopup(popupEditProfile);
+    return patchEditProfile(nameInput.value, jobInput.value)
+    .then(() => {
+      profileName.textContent = nameInput.value
+      profileProfession.textContent = jobInput.value
+    /*profileName.textContent = nameInput.value;
+    profileProfession.textContent = jobInput.value;*/
+      closePopup(popupEditProfile); 
+  })
 }
+
 
 //функция для создания новой карточки через попап
 function handleFormSubmitAdd(evt) {
@@ -123,7 +149,6 @@ popups.forEach(popup => {
     };
   })
 });
-
 enableValidation(selectors); //вызываем функцию чтобы валидация работала на всех формах
 
 import { enableValidation } from './components/validate.js';
