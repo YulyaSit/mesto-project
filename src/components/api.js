@@ -1,4 +1,4 @@
-export function getEditProfile() {
+export const getEditProfile = () => {
   return fetch('https://nomoreparties.co/v1/plus-cohort-23/users/me', {
     method: 'GET',
     headers: {
@@ -7,7 +7,7 @@ export function getEditProfile() {
   })
 }
 
-export function patchEditProfile(profileName, profileProfession) {
+export const patchEditProfile = (profileName, profileProfession) => {
   return fetch('https://nomoreparties.co/v1/plus-cohort-23/users/me', {
     method: 'PATCH',
     headers: {
@@ -23,4 +23,3 @@ export function patchEditProfile(profileName, profileProfession) {
     console.log(res.json())
   })
 }
-

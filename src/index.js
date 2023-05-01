@@ -65,8 +65,8 @@ import { openPopup, closePopup } from './components/utils.js';
 
 Promise.all([getEditProfile()])
 .then(([user]) => {
-  profileName.textContent = user.name;
-  profileProfession.textContent = user.about;
+  nameInput.value = user.name;
+  jobInput.value = user.about;
 })
 
 editProfileButton.addEventListener('click', function () {
@@ -109,7 +109,7 @@ initialCards.forEach(function (item) {
   cardsMain.append(createCard(item.link, item.name));
 });
 
-// Обработчик «отправки» формы, хотя пока
+// Обработчик «отправки» формы профиля, хотя пока
 // она никуда отправляться не будет
 function handleProfileFormSubmit(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
@@ -117,12 +117,10 @@ function handleProfileFormSubmit(evt) {
   // Получите значение полей jobInput и nameInput из свойства value
   // Выберите элементы, куда должны быть вставлены значения полей
   // Вставьте новые значения с помощью textContent
-    return patchEditProfile(nameInput.value, jobInput.value)
-    .then(() => {
-      profileName.textContent = nameInput.value
-      profileProfession.textContent = jobInput.value
-    /*profileName.textContent = nameInput.value;
-    profileProfession.textContent = jobInput.value;*/
+    patchEditProfile(nameInput.value, jobInput.value)
+    .then((res) => {
+      profileName.textContent = res.name
+      profileProfession.textContent = res.about
       closePopup(popupEditProfile); 
   })
 }
