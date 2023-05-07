@@ -41,24 +41,29 @@ export const config = {
   headers: {
     authorization: '3720e224-e620-430e-9649-e363bea978d6',
     'Content-Type': 'application/json'
-  }
+  },
+  settings: ((res) => {
+    if (res.ok) {
+      return res.json()
+    }
+    return Promise.reject(`Ошибка: ${res.status}`)
+  })
 }
 
-export const userLikes = document.querySelector('.card__likes')
-import { patchEditProfile, getEditProfile, patchEditAvatar, getCards, postCard} from './components/api';
+import { patchEditProfile, getEditProfile, patchEditAvatar, getCards, postCard } from './components/api';
 import { openPopup, closePopup } from './components/utils.js';
 
 import { createCard } from './components/card.js';
 
 Promise.all([getEditProfile(), getCards()])
   .then(([user, cards]) => {
-      profileName.textContent = user.name;
-      profileProfession.textContent = user.about;
-      profileAvatar.src = user.avatar;
-      userInfo.id = user._id;
-      cards.forEach((card) => {
-        cardsMain.append(createCard(card, userInfo))
-      })
+    profileName.textContent = user.name;
+    profileProfession.textContent = user.about;
+    profileAvatar.src = user.avatar;
+    userInfo.id = user._id;
+    cards.forEach((card) => {
+      cardsMain.append(createCard(card, userInfo))
+    })
   })
   .catch((err) => {
     console.log(err)
@@ -68,13 +73,13 @@ Promise.all([getEditProfile(), getCards()])
 
 editProfileButton.addEventListener('click', function () {
   //навешиваем слушатель, при клике на кнопку редактирования профиля срабатывает универсальная функция открытия попапа
-   //привязываем к полям ввода текста значения, которые будут при активных значениях
-    openPopup(popupEditProfile)
-    nameInput.value = profileName.textContent
-    jobInput.value = profileProfession.textContent
-   })
+  //привязываем к полям ввода текста значения, которые будут при активных значениях
+  openPopup(popupEditProfile)
+  nameInput.value = profileName.textContent
+  jobInput.value = profileProfession.textContent
+})
 
-editProfileAvatar.addEventListener('click', function() { //открытие попапа с редактированием аватара
+editProfileAvatar.addEventListener('click', function () { //открытие попапа с редактированием аватара
   openPopup(popupAvatar)
 })
 
@@ -82,16 +87,16 @@ function handleAvatarFormSubmit(evt) { // форма измненения авы
   evt.preventDefault()
   renderLoading(true)
   patchEditAvatar(inputLink.value)
-  .then(data => {
-    profileAvatar.src = data.avatar
-    closePopup(popupAvatar)
-  })
-  .catch((err) => {
-    console.log(err)
-  })
-  .finally((ok) => {
-    renderLoading(false)
-  })
+    .then(data => {
+      profileAvatar.src = data.avatar
+      closePopup(popupAvatar)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+    .finally((ok) => {
+      renderLoading(false)
+    })
 };
 
 formAvatar.addEventListener('submit', handleAvatarFormSubmit)
@@ -117,18 +122,18 @@ function handleProfileFormSubmit(evt) {
   // Выберите элементы, куда должны быть вставлены значения полей
   // Вставьте новые значения с помощью textContent
   renderLoading(true)
-    patchEditProfile(nameInput.value, jobInput.value)
+  patchEditProfile(nameInput.value, jobInput.value)
     .then(data => {
       profileName.textContent = data.name
       profileProfession.textContent = data.about
       closePopup(popupEditProfile);
-  })
-  .catch((err) => {
-    console.log(err)
-  })
-  .finally((ok) => {
-    renderLoading(false)
-  })
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+    .finally((ok) => {
+      renderLoading(false)
+    })
 }
 
 function renderLoading(isLoading) {
@@ -149,19 +154,19 @@ function handleFormSubmitAdd(evt) { // Эта строчка отменяет с
   evt.preventDefault();
   renderLoading(true)
   postCard(nameImageInput.value, linkImageInput.value)
-  .then((card) => {
-    linkImageInput.value = card.link
-    nameImageInput.value = card.name
-    cardsMain.prepend(createCard(card, userInfo))
-    closePopup(popupAdd);
-    evt.target.reset();
-  })
-  .catch((err) => {
-    console.log(err)
-  })
-  .finally((ok) => {
-    renderLoading(false)
-  })
+    .then((card) => {
+      linkImageInput.value = card.link
+      nameImageInput.value = card.name
+      cardsMain.prepend(createCard(card, userInfo))
+      closePopup(popupAdd);
+      evt.target.reset();
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+    .finally((ok) => {
+      renderLoading(false)
+    })
 }
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»

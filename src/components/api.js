@@ -1,16 +1,12 @@
-import { config} from "../index.js"
+import { config } from "../index.js"
+
 
 export const getEditProfile = () => {
   return fetch(`${config.baseUrl}/users/me`, {
     method: 'GET',
     headers: config.headers,
   })
-  .then((res) => {
-    if (res.ok) {
-      return res.json()
-    }
-    return Promise.reject(`Ошибка: ${res.status}`)
-  })
+    .then(config.settings)
 }
 
 export const patchEditProfile = (profileName, profileProfession) => {
@@ -22,12 +18,7 @@ export const patchEditProfile = (profileName, profileProfession) => {
       about: profileProfession
     })
   })
-  .then((res) => {
-    if (res.ok) {
-      return res.json()
-    }
-    return Promise.reject(`Ошибка: ${res.status}`)
-  })
+    .then(config.settings)
 }
 
 export const patchEditAvatar = (profileAvatar) => {
@@ -38,28 +29,23 @@ export const patchEditAvatar = (profileAvatar) => {
       avatar: profileAvatar
     })
   })
-  .then((res) => {
-    if (res.ok) {
-      return res.json()
-    }
-    return Promise.reject(res.status)
-  })
+    .then(config.settings)
 }
 
 export const getCards = () => {
   return fetch(`${config.baseUrl}/cards`, {
     headers: config.headers,
   })
-  .then((res) => {
-    if (res.ok) {
-      return res.json()
-    }
-    return Promise.reject(`Ошибка: ${res.status}`)
-  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json()
+      }
+      return Promise.reject(`Ошибка: ${res.status}`)
+    })
 }
 
 export const postCard = (name, link) => {
-  return fetch(`${config.baseUrl}/cards` , {
+  return fetch(`${config.baseUrl}/cards`, {
     method: 'POST',
     headers: config.headers,
     body: JSON.stringify({
@@ -67,12 +53,7 @@ export const postCard = (name, link) => {
       link: link
     })
   })
-  .then((res) => {
-    if (res.ok) {
-      return res.json()
-    }
-    return Promise.reject(`Ошибка: ${res.status}`)
-  })
+    .then(config.settings)
 }
 
 export const deleteCard = (card) => {
@@ -80,10 +61,22 @@ export const deleteCard = (card) => {
     method: 'DELETE',
     headers: config.headers
   })
-  .then((res) => {
-    if (res.ok) {
-      return res.json()
-    }
-    return Promise.reject(`Ошибка: ${res.status}`)
+    .then(config.settings)
+}
+
+export const pasteLike = (card) => {
+  return fetch(`${config.baseUrl}/cards/likes/${card}`, {
+    method: 'PUT',
+    headers: config.headers
   })
+    .then(config.settings)
+}
+
+
+export const deleteLike = (card) => {
+  return fetch(`${config.baseUrl}/cards/likes/${card}`, {
+    method: 'DELETE',
+    headers: config.headers
+  })
+    .then(config.settings)
 }
