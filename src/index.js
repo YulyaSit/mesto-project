@@ -24,32 +24,7 @@ const popupAvatar = document.querySelector('#popup-avatar')
 export const profileAvatar = document.querySelector('.profile__avatar')
 const formAvatar = document.forms['popup-form-avatar']
 const inputLink = document.querySelector('.link-avatar')
-const initialCards = [
-  {
-    name: 'Рыбов мне!',
-    link: 'https://images.unsplash.com/photo-1543852786-1cf6624b9987?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'
-  },
-  {
-    name: 'Когда покодил',
-    link: 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80'
-  },
-  {
-    name: 'Релакс',
-    link: 'https://images.unsplash.com/photo-1572252821143-035a024857ac?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=686&q=80'
-  },
-  {
-    name: 'А можно ненадо?',
-    link: 'https://images.unsplash.com/photo-1570824105192-a7bb72b73141?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=842&q=80'
-  },
-  {
-    name: 'С нг кароч',
-    link: 'https://images.unsplash.com/photo-1542108226-9130e1e83cc4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1098&q=80'
-  },
-  {
-    name: 'И что ты мне сделаешь?',
-    link: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1143&q=80'
-  }
-]; //массив по ТЗ
+export const userInfo = document.querySelector('.container')
 
 export const selectors =
 {
@@ -60,14 +35,36 @@ export const selectors =
   inputErrorClass: 'popup__name_invalid',
   errorClass: 'popup__input-error_active'
 };
-import { patchEditProfile, getEditProfile } from './components/api';
+
+export const config = {
+  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-23',
+  headers: {
+    authorization: '3720e224-e620-430e-9649-e363bea978d6',
+    'Content-Type': 'application/json'
+  }
+}
+
+export const userLikes = document.querySelector('.card__likes')
+import { patchEditProfile, getEditProfile, patchEditAvatar, getCards, postCard} from './components/api';
 import { openPopup, closePopup } from './components/utils.js';
 
-Promise.all([getEditProfile()])
-.then(([user]) => {
-  nameInput.value = user.name;
-  jobInput.value = user.about;
-})
+import { createCard } from './components/card.js';
+
+Promise.all([getEditProfile(), getCards()])
+  .then(([user, cards]) => {
+      profileName.textContent = user.name;
+      profileProfession.textContent = user.about;
+      profileAvatar.src = user.avatar;
+      userInfo.id = user._id;
+      cards.forEach((card) => {
+        cardsMain.append(createCard(card, userInfo))
+      })
+  })
+  .catch((err) => {
+    console.log(err)
+  })
+
+
 
 editProfileButton.addEventListener('click', function () {
   //навешиваем слушатель, при клике на кнопку редактирования профиля срабатывает универсальная функция открытия попапа
@@ -81,13 +78,20 @@ editProfileAvatar.addEventListener('click', function() { //открытие по
   openPopup(popupAvatar)
 })
 
-
-
 function handleAvatarFormSubmit(evt) { // форма измненения авы
   evt.preventDefault()
-  closePopup(popupAvatar)
-  profileAvatar.src = inputLink.value
-  evt.target.reset()
+  renderLoading(true)
+  patchEditAvatar(inputLink.value)
+  .then(data => {
+    profileAvatar.src = data.avatar
+    closePopup(popupAvatar)
+  })
+  .catch((err) => {
+    console.log(err)
+  })
+  .finally((ok) => {
+    renderLoading(false)
+  })
 };
 
 formAvatar.addEventListener('submit', handleAvatarFormSubmit)
@@ -103,11 +107,6 @@ addCardButton.addEventListener('click', function () { //слушатель на 
   openPopup(popupAdd);
 });
 
-import { createCard } from './components/card.js';
-//чтобы карточки приняли новые значения, мы делаем перебор с помощью метода forEach и вставляем новые карточки в общий контейнер
-initialCards.forEach(function (item) {
-  cardsMain.append(createCard(item.link, item.name));
-});
 
 // Обработчик «отправки» формы профиля, хотя пока
 // она никуда отправляться не будет
@@ -117,24 +116,53 @@ function handleProfileFormSubmit(evt) {
   // Получите значение полей jobInput и nameInput из свойства value
   // Выберите элементы, куда должны быть вставлены значения полей
   // Вставьте новые значения с помощью textContent
+  renderLoading(true)
     patchEditProfile(nameInput.value, jobInput.value)
-    .then((res) => {
-      profileName.textContent = res.name
-      profileProfession.textContent = res.about
-      closePopup(popupEditProfile); 
+    .then(data => {
+      profileName.textContent = data.name
+      profileProfession.textContent = data.about
+      closePopup(popupEditProfile);
+  })
+  .catch((err) => {
+    console.log(err)
+  })
+  .finally((ok) => {
+    renderLoading(false)
   })
 }
 
-
-//функция для создания новой карточки через попап
-function handleFormSubmitAdd(evt) {
-  evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-  // Так мы можем определить свою логику отправки.
-  cardsMain.prepend(createCard(linkImageInput.value, nameImageInput.value))
-  closePopup(popupAdd);
-  evt.target.reset();
+function renderLoading(isLoading) {
+  const buttons = Array.from(document.querySelectorAll('.popup__button'))
+  if (isLoading) {
+    buttons[0].value = "Сохранение..."
+    buttons[1].value = "Создание..."
+    buttons[2].value = "Сохранение..."
+  } else {
+    buttons[0].value = "Сохранить"
+    buttons[1].value = "Создать"
+    buttons[2].value = "Сохранить"
+  }
 }
-
+//функция для создания новой карточки через попап
+function handleFormSubmitAdd(evt) { // Эта строчка отменяет стандартную отправку формы.
+  // Так мы можем определить свою логику отправки.
+  evt.preventDefault();
+  renderLoading(true)
+  postCard(nameImageInput.value, linkImageInput.value)
+  .then((card) => {
+    linkImageInput.value = card.link
+    nameImageInput.value = card.name
+    cardsMain.prepend(createCard(card, userInfo))
+    closePopup(popupAdd);
+    evt.target.reset();
+  })
+  .catch((err) => {
+    console.log(err)
+  })
+  .finally((ok) => {
+    renderLoading(false)
+  })
+}
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
 profileForm.addEventListener('submit', handleProfileFormSubmit);

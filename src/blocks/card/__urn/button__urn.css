@@ -1,4 +1,5 @@
 .button__urn {
+    display: none;
     width: 18px;
     height: 19px;
     background-image: url(../../../images/Trash.svg);
