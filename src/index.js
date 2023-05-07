@@ -63,10 +63,10 @@ Promise.all([getEditProfile(), getCards()])
     userInfo.id = user._id;
     cards.forEach((card) => {
       cardsMain.append(createCard(card, userInfo))
-    })
+    }) //берем массив карточек из сервера и вставляем в нашу разметку
   })
   .catch((err) => {
-    console.log(err)
+    console.log(err) //обработка ошибки
   })
 
 

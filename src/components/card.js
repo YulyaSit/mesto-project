@@ -15,15 +15,18 @@ export function createCard(card, userInfo) {
   cardImage.src = card.link;
   cardImage.alt = card.name;
   cardClone.querySelector('.card__name').textContent = card.name;
-  cardUrn.addEventListener('click', function () {
+  cardUrn.addEventListener('click', function () { //удаление карточки
     deleteCard(card)
       .then((card) => {
         card._id = cardClone.remove()
+      })
+      .catch((err) => {
+        console.log(err); // выводим ошибку в консоль, если запрос неуспешный
       });
   });
   const cardButtonLike = cardClone.querySelector('.card__button-like')
-  cardButtonLike.addEventListener('click', function (evt) { //добавили изменение цвета лайка при клике
-    if (!evt.target.classList.contains('card__button-like_active')) {//проверяю есть ли активный класс
+  cardButtonLike.addEventListener('click', function (evt) {   //добавили класс изменение цвета лайка при клике
+    if (!evt.target.classList.contains('card__button-like_active')) {  //проверяем активный класс
       pasteLike(card._id)
         .then((card) => {
           evt.target.classList.add('card__button-like_active')
@@ -38,6 +41,9 @@ export function createCard(card, userInfo) {
           evt.target.classList.remove('card__button-like_active')
           userLikes.textContent = card.likes.length
         })
+        .catch((err) => {
+          console.log(err); // выводим ошибку в консоль, если запрос неуспешный
+        });
     }
   })
   cardImage.addEventListener('click', function () {
