@@ -6,15 +6,12 @@
   font-size: 14px;
   line-height: 17px;
   padding: 0;
-  padding-bottom: 13px;
+  padding-bottom: 11px;
   border: 0;
   border-bottom: 1px solid rgba(0%, 0%, 0%, .2);
   margin-left: 36px;
 }
 
-.popup__name:nth-last-of-type(2) {
-  margin-top: 30px;
-}
 
 .popup__name:focus {
   outline: none;

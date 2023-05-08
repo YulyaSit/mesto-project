@@ -3,10 +3,11 @@
     font-size: 12px;
     line-height: 15px;
     color: #FF0000;
-    display: none;
+    display: block;
     margin-top: 5px;
     margin-left: 36px;
     width: 358px;
+    min-height: 30px;
 }
 
 @media screen and (max-width: 600px) {

@@ -1,5 +1,4 @@
-import { config } from "../index.js"
-
+import { config } from "../components/constants.js"
 
 export const getEditProfile = () => {
   return fetch(`${config.baseUrl}/users/me`, {

@@ -1,4 +1,4 @@
-import { selectors } from "../index.js";
+import { selectors } from "../components/constants.js";
 
 //функция которая добавляет класс с ошибкой
 const showInputError = (formElement, inputElement, errorMessage, selectors) => {

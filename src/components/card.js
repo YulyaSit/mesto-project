@@ -1,9 +1,8 @@
-import { templateCard, popupImage, popupCaption, popupPicture } from "../index.js";
-import { openPopup } from "../components/utils.js";
 import { deleteCard, pasteLike, deleteLike } from "./api.js";
+import { templateCard} from "./constants.js";
 //функция которая будет изменять содержимое клонированной из темплейта карточки, в ней мы присваиваем значения из массива, добавляет лайк, активируем урну с удалением карточки, так же привязываем
 //так же присваиваем значения к попапам для картинок
-export function createCard(card, userInfo) {
+export function createCard(card, userInfo, handleClick) {
   const cardClone = templateCard.querySelector('.card').cloneNode(true);
   const cardImage = cardClone.querySelector('.card__image')
   const cardUrn = cardClone.querySelector('.button__urn')
@@ -46,11 +45,16 @@ export function createCard(card, userInfo) {
         });
     }
   })
-  cardImage.addEventListener('click', function () {
-    popupImage.src = card.link
-    popupImage.alt = card.name
-    popupCaption.textContent = cardClone.textContent
-    openPopup(popupPicture)
+  card.likes.forEach(() => {
+    if (userInfo.id) {
+      cardButtonLike.classList.add('card__button-like_active')
+    } else {
+      cardButtonLike.classList.remove('card__button-like_active')
+    }
   });
+  cardImage.addEventListener('click', () => {
+    handleClick(card.link, card.name)
+  }
+  )
   return cardClone;
 };
