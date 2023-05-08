@@ -44,4 +44,5 @@
 .popup__container-image{display:flex;flex-direction:column;max-width:848px;position:relative}@media screen and (max-width:870px){.popup__container-image{max-width:500px}}@media screen and (max-width:600px){.popup__container-image{max-width:240px}}
 .popup__image{height:100%;max-height:580px;max-width:816px;-o-object-fit:contain;object-fit:contain;width:100%}@media screen and (max-width:600){.popup__image{min-height:335px;min-width:240px}}
 .popup__text{font-size:12px;font-weight:400;line-height:15px;margin:10px 0 0}
+.popup_background{background-color:rgba(0,0,0,.9)}
 
