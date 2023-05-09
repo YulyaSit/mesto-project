@@ -23,7 +23,9 @@ export function createCard(card, userInfo, handleClick) {
         console.log(err); // выводим ошибку в консоль, если запрос неуспешный
       });
   });
+
   const cardButtonLike = cardClone.querySelector('.card__button-like')
+
   cardButtonLike.addEventListener('click', function (evt) {   //добавили класс изменение цвета лайка при клике
     if (!evt.target.classList.contains('card__button-like_active')) {  //проверяем активный класс
       pasteLike(card._id)
@@ -44,17 +46,17 @@ export function createCard(card, userInfo, handleClick) {
           console.log(err); // выводим ошибку в консоль, если запрос неуспешный
         });
     }
-  })
-  card.likes.forEach(() => {
-    if (userInfo.id) {
-      cardButtonLike.classList.add('card__button-like_active')
-    } else {
-      cardButtonLike.classList.remove('card__button-like_active')
-    }
+
   });
+
   cardImage.addEventListener('click', () => {
     handleClick(card.link, card.name)
   }
   )
+  card.likes.forEach(() => {
+    if (card.likes._id = userInfo.id ) {
+      cardButtonLike.classList.add('card__button-like_active')
+    }
+  });
   return cardClone;
 };

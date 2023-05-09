@@ -68,7 +68,7 @@ buttonAddCard.addEventListener('click', function () { //слушатель на 
   openPopup(popupAdd);
 });
 
-function renderLoading(isLoading, button, buttonLoading = 'Сохранение..', buttonText = 'Сохранить') {
+function renderLoading(isLoading, button, buttonLoading = 'Сохранение..', buttonText = 'Сохранить') { //универсальная функция для загрузки
   if (isLoading) {
      button.value = buttonLoading
   } else {
