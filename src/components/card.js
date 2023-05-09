@@ -53,8 +53,8 @@ export function createCard(card, userInfo, handleClick) {
     handleClick(card.link, card.name)
   }
   )
-  card.likes.forEach(() => {
-    if (card.likes._id === userInfo._id ) {
+  card.likes.forEach((like) => {
+    if (like._id === userInfo._id) {
       cardButtonLike.classList.add('card__button-like_active')
     }
   });

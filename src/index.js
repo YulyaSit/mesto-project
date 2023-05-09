@@ -14,7 +14,7 @@ Promise.all([getEditProfile(), getCards()])
     profileAvatar.src = user.avatar;
     userInfo.id = user._id;
     cards.forEach((card) => {
-      cardsMain.append(createCard(card, userInfo, openPopupImage))
+      cardsMain.append(createCard(card,userInfo, openPopupImage))
     }) //берем массив карточек из сервера и вставляем в нашу разметку
   })
   .catch((err) => {
