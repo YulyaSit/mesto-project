@@ -54,7 +54,7 @@ export function createCard(card, userInfo, handleClick) {
   }
   )
   card.likes.forEach(() => {
-    if (card.likes._id = userInfo.id ) {
+    if (card.likes._id === userInfo._id ) {
       cardButtonLike.classList.add('card__button-like_active')
     }
   });
