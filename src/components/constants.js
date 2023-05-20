@@ -34,7 +34,7 @@ export const selectors =
   inactiveButtonClass: 'popup__button_inactive',
   inputErrorClass: 'popup__name_invalid',
   errorClass: 'popup__input-error_active'
-};
+}; //объект с селекторами для валидации
 
 export const config = {
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-23',
@@ -48,4 +48,4 @@ export const config = {
     }
     return Promise.reject(`Ошибка: ${res.status}`)
   })
-}
+} //объект для АПИ

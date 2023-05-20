@@ -22,13 +22,13 @@ Promise.all([getEditProfile(), getCards()])
     console.log(err) //обработка ошибки
   })
 
-export function openPopupImage(link, name) {
+export function openPopupImage(link, name) { //функция в которой передаем данные в попап открытия карточки(картинки)
   popupImage.src = link
   popupCaption.textContent = name
   openPopup(popupPicture)
 }
 
-buttonOpenPopupProfile.addEventListener('click', function () {
+buttonOpenPopupProfile.addEventListener('click', function () { //слушатель для попапа редактирования профиля(ниже описание подробное)
   //навешиваем слушатель, при клике на кнопку редактирования профиля срабатывает универсальная функция открытия попапа
   //привязываем к полям ввода текста значения, которые будут при активных значениях
   openPopup(popupEditProfile)
@@ -40,9 +40,9 @@ avatarEditProfile.addEventListener('click', function () { //открытие п�
   openPopup(popupAvatar)
 })
 
-function handleAvatarFormSubmit(evt) { // форма измненения авы
+function handleAvatarFormSubmit(evt) { // функция для  формы измненения авы
   evt.preventDefault()
-  renderLoading(true, buttonAvatar)
+  renderLoading(true, buttonAvatar) //функция изменение текста кнопки "Сохранение..." во время загрузки
   patchEditAvatar(inputLink.value)
     .then(data => {
       profileAvatar.src = data.avatar
@@ -56,9 +56,9 @@ function handleAvatarFormSubmit(evt) { // форма измненения авы
     })
 };
 
-formAvatar.addEventListener('submit', handleAvatarFormSubmit)
+formAvatar.addEventListener('submit', handleAvatarFormSubmit) //слушатель самбита для авы
 
-closeButtons.forEach((button) => {
+closeButtons.forEach((button) => { //закрытие попапов на крестик
   // находим 1 раз ближайший к крестику попап 
   const popup = button.closest('.popup');
   // устанавливаем обработчик закрытия на крестик
@@ -76,8 +76,7 @@ function renderLoading(isLoading, button, buttonLoading = 'Сохранение.
      button.value = buttonText
   }
 }
-// Обработчик «отправки» формы профиля, хотя пока
-// она никуда отправляться не будет
+// Обработчик «отправки» формы профиля
 function handleProfileFormSubmit(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   // Так мы можем определить свою логику отправки.
@@ -85,7 +84,7 @@ function handleProfileFormSubmit(evt) {
   // Выберите элементы, куда должны быть вставлены значения полей
   // Вставьте новые значения с помощью textContent
   renderLoading(true, buttonProfile)
-    patchEditProfile(nameInput.value, jobInput.value)
+    patchEditProfile(nameInput.value, jobInput.value) //фетч для изменения данных о пользователе: имя и профессия
     .then(data => {
       profileName.textContent = data.name
       profileProfession.textContent = data.about
@@ -106,7 +105,7 @@ function handleFormSubmitAdd(evt) { // Эта строчка отменяет с
   // Так мы можем определить свою логику отправки.
   evt.preventDefault();
   renderLoading(true, buttonCard)
-  postCard(nameImageInput.value, linkImageInput.value)
+  postCard(nameImageInput.value, linkImageInput.value) //вставка карточки 
     .then((card) => {
       linkImageInput.value = card.link
       nameImageInput.value = card.name
@@ -123,10 +122,10 @@ function handleFormSubmitAdd(evt) { // Эта строчка отменяет с
 }
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
-profileForm.addEventListener('submit', handleProfileFormSubmit);
-formElementAdd.addEventListener('submit', handleFormSubmitAdd);
+profileForm.addEventListener('submit', handleProfileFormSubmit); //слушатель для формы профиля
+formElementAdd.addEventListener('submit', handleFormSubmitAdd); //слушатель для формы создания карточки
 
-popups.forEach(popup => {
+popups.forEach(popup => { //закрытие на все попапы при клике мышки на оверлей
   popup.addEventListener('mousedown', (evt) => {
     if (evt.target.classList.contains('popup_opened')) {
       closePopup(popup);
