@@ -49,3 +49,4 @@ export const config = {
     return Promise.reject(`Ошибка: ${res.status}`)
   })
 } //объект для АПИ
+

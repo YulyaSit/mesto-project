@@ -5,9 +5,10 @@ import { selectors, buttonOpenPopupProfile, popupEditProfile, buttonAddCard, clo
 import { patchEditProfile, getEditProfile, patchEditAvatar, getCards, postCard } from './components/api';
 import { openPopup, closePopup } from './components/modal.js';
 
+import Api from './components/api'
 import { createCard } from './components/card.js';
 
-Promise.all([getEditProfile(), getCards()])
+Promise.all([Api.getEditProfile(), getCards()])
   .then(([user, cards]) => {
     profileName.textContent = user.name;
     profileProfession.textContent = user.about;

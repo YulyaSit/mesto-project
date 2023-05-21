@@ -1,14 +1,21 @@
 import { config } from "../components/constants.js"
 
-export const getEditProfile = () => { //гет запрос для информации о пользователе
-  return fetch(`${config.baseUrl}/users/me`, {
+
+export default class Api {
+  constructor(baseUrl, headers, settings) {
+    this.baseUrl = baseUrl;
+    this.headers = headers;
+    this.settings = settings
+  }
+  getEditProfile()  { //гет запрос для информации о пользователе
+  return fetch(`${baseUrl}/users/me`, {
     method: 'GET',
-    headers: config.headers,
+    headers: this.headers,
   })
-    .then(config.settings)
+    .then(this.settings)
 }
 
-export const patchEditProfile = (profileName, profileProfession) => {
+patchEditProfile (profileName, profileProfession) {
   return fetch(`${config.baseUrl}/users/me`, { //патч запрос на изменение имени и профессии
     method: 'PATCH',
     headers: config.headers,
@@ -19,6 +26,62 @@ export const patchEditProfile = (profileName, profileProfession) => {
   })
     .then(config.settings)
 }
+}
+
+const api = new Api ({
+  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-23',
+  headers: {
+    authorization: '3720e224-e620-430e-9649-e363bea978d6',
+    'Content-Type': 'application/json'
+  },
+  settings: ((res) => {
+    if (res.ok) {
+      return res.json()
+    }
+    return Promise.reject(`Ошибка: ${res.status}`)
+  })
+})
+
+export const config = {
+  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-23',
+  headers: {
+    authorization: '3720e224-e620-430e-9649-e363bea978d6',
+    'Content-Type': 'application/json'
+  },
+  settings: ((res) => {
+    if (res.ok) {
+      return res.json()
+    }
+    return Promise.reject(`Ошибка: ${res.status}`)
+  })
+} //объект для АПИ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export const patchEditAvatar = (profileAvatar) => { //патч запрос для изменения аватара
   return fetch(`${config.baseUrl}/users/me/avatar`, {
