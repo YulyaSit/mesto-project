@@ -2,13 +2,12 @@ import './pages/index.css'
 import { selectors, buttonOpenPopupProfile, popupEditProfile, buttonAddCard, closeButtons, popupAdd, cardsMain, nameInput, profileForm, jobInput, profileName, profileProfession, 
   formElementAdd, profileAvatar, userInfo, avatarEditProfile, formAvatar, nameImageInput, linkImageInput, popups, inputLink, popupAvatar, buttonProfile,  buttonCard, buttonAvatar, popupPicture, popupImage, popupCaption} from './components/constants.js';
 
-import { patchEditProfile, getEditProfile, patchEditAvatar, getCards, postCard } from './components/api';
+import { Api, api, patchEditProfile, getEditProfile, patchEditAvatar, getCards, postCard } from './components/api';
 import { openPopup, closePopup } from './components/modal.js';
 
-import Api from './components/api'
 import { createCard } from './components/card.js';
 
-Promise.all([Api.getEditProfile(), getCards()])
+Promise.all([api.getEditProfile(), api.getCards()])
   .then(([user, cards]) => {
     profileName.textContent = user.name;
     profileProfession.textContent = user.about;
@@ -22,13 +21,11 @@ Promise.all([Api.getEditProfile(), getCards()])
   .catch((err) => {
     console.log(err) //обработка ошибки
   })
-
 export function openPopupImage(link, name) { //функция в которой передаем данные в попап открытия карточки(картинки)
   popupImage.src = link
   popupCaption.textContent = name
   openPopup(popupPicture)
 }
-
 buttonOpenPopupProfile.addEventListener('click', function () { //слушатель для попапа редактирования профиля(ниже описание подробное)
   //навешиваем слушатель, при клике на кнопку редактирования профиля срабатывает универсальная функция открытия попапа
   //привязываем к полям ввода текста значения, которые будут при активных значениях
@@ -44,7 +41,7 @@ avatarEditProfile.addEventListener('click', function () { //открытие п�
 function handleAvatarFormSubmit(evt) { // функция для  формы измненения авы
   evt.preventDefault()
   renderLoading(true, buttonAvatar) //функция изменение текста кнопки "Сохранение..." во время загрузки
-  patchEditAvatar(inputLink.value)
+  api.patchEditAvatar(inputLink.value)
     .then(data => {
       profileAvatar.src = data.avatar
       closePopup(popupAvatar)
@@ -85,7 +82,7 @@ function handleProfileFormSubmit(evt) {
   // Выберите элементы, куда должны быть вставлены значения полей
   // Вставьте новые значения с помощью textContent
   renderLoading(true, buttonProfile)
-    patchEditProfile(nameInput.value, jobInput.value) //фетч для изменения данных о пользователе: имя и профессия
+  api.patchEditProfile(nameInput.value, jobInput.value) //фетч для изменения данных о пользователе: имя и профессия
     .then(data => {
       profileName.textContent = data.name
       profileProfession.textContent = data.about
@@ -106,7 +103,7 @@ function handleFormSubmitAdd(evt) { // Эта строчка отменяет с
   // Так мы можем определить свою логику отправки.
   evt.preventDefault();
   renderLoading(true, buttonCard)
-  postCard(nameImageInput.value, linkImageInput.value) //вставка карточки 
+  api.postCard(nameImageInput.value, linkImageInput.value) //вставка карточки 
     .then((card) => {
       linkImageInput.value = card.link
       nameImageInput.value = card.name

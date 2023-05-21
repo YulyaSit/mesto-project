@@ -1,5 +1,6 @@
 import { deleteCard, pasteLike, deleteLike } from "./api.js";
 import { templateCard} from "./constants.js";
+import {Api, api} from './api.js'
 //функция которая будет изменять содержимое клонированной из темплейта карточки, в ней мы присваиваем значения из массива, добавляет лайк, активируем урну с удалением карточки, так же привязываем
 //так же присваиваем значения к попапам для картинок
 export function createCard(card, userInfo, handleClick) {
@@ -15,7 +16,7 @@ export function createCard(card, userInfo, handleClick) {
   cardImage.alt = card.name;
   cardClone.querySelector('.card__name').textContent = card.name;
   cardUrn.addEventListener('click', function () { //удаление карточки
-    deleteCard(card)
+    api.deleteCard(card)
       .then((card) => {
         card._id = cardClone.remove()
       })
@@ -28,7 +29,7 @@ export function createCard(card, userInfo, handleClick) {
 
   cardButtonLike.addEventListener('click', function (evt) {   //добавили класс изменение цвета лайка при клике
     if (!evt.target.classList.contains('card__button-like_active')) {  //проверяем активный класс
-      pasteLike(card._id) //в условии вызвали запрос на постановку лайка, в котором указали 
+      api.pasteLike(card._id) //в условии вызвали запрос на постановку лайка, в котором указали 
         .then((card) => {
           evt.target.classList.add('card__button-like_active') //закрасить сердечко при клике
           userLikes.textContent = card.likes.length; //добавить +1 лайк в разметку
@@ -37,7 +38,7 @@ export function createCard(card, userInfo, handleClick) {
           console.log(err); // выводим ошибку в консоль, если запрос неуспешный
         });
     } else {
-      deleteLike(card._id) //вызвали запро
+      api.deleteLike(card._id) //вызвали запро
         .then((card) => {
           evt.target.classList.remove('card__button-like_active') //удалить активный класс с сердечком
           userLikes.textContent = card.likes.length // -1 в разметке 
