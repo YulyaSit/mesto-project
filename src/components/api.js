@@ -1,19 +1,18 @@
-import { config } from "../components/constants.js"
-
-
-export class Api {
+export default class Api {
   constructor(options) {
     this.baseUrl = options.baseUrl;
     this.headers = options.headers;
+    this.settings = options.settings;
   }
   getEditProfile()  { //гет запрос для информации о пользователе
   return fetch(`${this.baseUrl}/users/me`, { 
     headers: this.headers
   })
+  .then(this.settings)
   }
 
   patchEditProfile (profileName, profileProfession) {
-  return fetch(`${this.options}/users/me`, { //патч запрос на изменение имени и профессии
+  return fetch(`${this.baseUrl}/users/me`, { //патч запрос на изменение имени и профессии
     method: 'PATCH',
     headers: this.headers,
     body: JSON.stringify({
@@ -21,6 +20,7 @@ export class Api {
       about: profileProfession
     })
   })
+  .then(this.settings)
 }
 
 patchEditAvatar (profileAvatar) { //патч запрос для изменения аватара
@@ -31,12 +31,14 @@ patchEditAvatar (profileAvatar) { //патч запрос для изменен�
       avatar: profileAvatar
     })
   })
+  .then(this.settings)
 }
 
 getCards() { //гет запрос карточек 
   return fetch(`${this.baseUrl}/cards`, {
   headers: this.headers
 })
+.then(this.settings)
 }
 
 postCard(name, link) {
@@ -48,6 +50,7 @@ postCard(name, link) {
       link: link
     })
   })
+  .then(this.settings)
 }
 
 deleteCard(card) { //делит запрос для удаления карточки
@@ -55,6 +58,7 @@ deleteCard(card) { //делит запрос для удаления карто�
     method: 'DELETE',
     headers: this.headers,
   })
+  .then(this.settings)
 }
 
 pasteLike(card) { //пут запрос для постановки лайка
@@ -62,6 +66,7 @@ pasteLike(card) { //пут запрос для постановки лайка
     method: 'PUT',
     headers: this.headers
   })
+  .then(this.settings)
 }
 
 
@@ -70,14 +75,7 @@ deleteLike(card) { //делит запрос для удаления лайка
     method: 'DELETE',
     headers: this.headers
   })
+  .then(this.settings)
 }
 }
-export const api = new Api ({
-  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-23',
-  headers: {
-    authorization: '3720e224-e620-430e-9649-e363bea978d6',
-    'Content-Type': 'application/json'
-  }
-})
 
-console.log(api)

@@ -36,17 +36,3 @@ export const selectors =
   errorClass: 'popup__input-error_active'
 }; //объект с селекторами для валидации
 
-export const config = {
-  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-23',
-  headers: {
-    authorization: '3720e224-e620-430e-9649-e363bea978d6',
-    'Content-Type': 'application/json'
-  },
-  settings: ((res) => {
-    if (res.ok) {
-      return res.json()
-    }
-    return Promise.reject(`Ошибка: ${res.status}`)
-  })
-} //объект для АПИ
-

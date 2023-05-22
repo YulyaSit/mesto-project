@@ -2,11 +2,23 @@ import './pages/index.css'
 import { selectors, buttonOpenPopupProfile, popupEditProfile, buttonAddCard, closeButtons, popupAdd, cardsMain, nameInput, profileForm, jobInput, profileName, profileProfession, 
   formElementAdd, profileAvatar, userInfo, avatarEditProfile, formAvatar, nameImageInput, linkImageInput, popups, inputLink, popupAvatar, buttonProfile,  buttonCard, buttonAvatar, popupPicture, popupImage, popupCaption} from './components/constants.js';
 
-import { Api, api, patchEditProfile, getEditProfile, patchEditAvatar, getCards, postCard } from './components/api';
+import  Api from './components/api.js';
 import { openPopup, closePopup } from './components/modal.js';
 
 import { createCard } from './components/card.js';
-
+export const api = new Api ({
+  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-23',
+  headers: {
+  authorization: '3720e224-e620-430e-9649-e363bea978d6',
+    'Content-Type': 'application/json'
+  },
+  settings: (res) => {
+    if (res.ok) {
+      return res.json()
+    }
+    return Promise.reject(`Ошибка: ${res.status}`)
+  }
+})
 Promise.all([api.getEditProfile(), api.getCards()])
   .then(([user, cards]) => {
     profileName.textContent = user.name;
