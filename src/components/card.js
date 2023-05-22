@@ -1,6 +1,5 @@
-import { deleteCard, pasteLike, deleteLike } from "./api.js";
 import { templateCard} from "./constants.js";
-import {Api, api} from './api.js'
+import {api} from '../index.js'
 //функция которая будет изменять содержимое клонированной из темплейта карточки, в ней мы присваиваем значения из массива, добавляет лайк, активируем урну с удалением карточки, так же привязываем
 //так же присваиваем значения к попапам для картинок
 export function createCard(card, userInfo, handleClick) {
