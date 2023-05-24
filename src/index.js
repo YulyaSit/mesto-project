@@ -1,11 +1,18 @@
 import './pages/index.css'
-import { selectors, buttonOpenPopupProfile, popupEditProfile, buttonAddCard, closeButtons, popupAdd, cardsMain, nameInput, profileForm, jobInput, profileName, profileProfession, 
+import { buttonOpenPopupProfile, popupEditProfile, buttonAddCard, closeButtons, popupAdd, cardsMain, nameInput, profileForm, jobInput, profileName, profileProfession, 
   formElementAdd, profileAvatar, userInfo, avatarEditProfile, formAvatar, nameImageInput, linkImageInput, popups, inputLink, popupAvatar, buttonProfile,  buttonCard, buttonAvatar, popupPicture, popupImage, popupCaption} from './components/constants.js';
 
 import  Api from './components/api.js';
 import { openPopup, closePopup } from './components/modal.js';
-
+import FormValidator from './components/validate.js';
 import { createCard } from './components/card.js';
+export const formValidator = new FormValidator ({
+  inputSelector: '.popup__name',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: '.popup__button_inactive',
+  inputErrorClass: '.popup__name_invalid',
+  errorClass: '.popup__input-error_active'
+})
 export const api = new Api ({
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-23',
   headers: {
@@ -142,6 +149,6 @@ popups.forEach(popup => { //закрытие на все попапы при к�
     };
   })
 });
-enableValidation(selectors); //вызываем функцию чтобы валидация работала на всех формах
 
-import { enableValidation } from './components/validate.js';
+
+formValidator.enableValidation()

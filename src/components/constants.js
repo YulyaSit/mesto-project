@@ -26,13 +26,5 @@ export const userInfo = document.querySelector('.container')
 export const buttonProfile = profileForm.querySelector('.popup__button')
 export const buttonCard = formElementAdd.querySelector('.popup__button')
 export const buttonAvatar = formAvatar.querySelector('.popup__button')
-export const selectors =
-{
-  formSelector: '.form',
-  inputSelector: '.popup__name',
-  submitButtonSelector: '.popup__button',
-  inactiveButtonClass: 'popup__button_inactive',
-  inputErrorClass: 'popup__name_invalid',
-  errorClass: 'popup__input-error_active'
-}; //объект с селекторами для валидации
+
 
