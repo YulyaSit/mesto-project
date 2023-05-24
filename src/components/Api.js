@@ -78,4 +78,3 @@ deleteLike(card) { //делит запрос для удаления лайка
   .then(this.settings)
 }
 }
-

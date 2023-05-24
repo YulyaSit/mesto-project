@@ -2,7 +2,7 @@ import './pages/index.css'
 import { selectors, buttonOpenPopupProfile, popupEditProfile, buttonAddCard, closeButtons, popupAdd, cardsMain, nameInput, profileForm, jobInput, profileName, profileProfession, 
   formElementAdd, profileAvatar, userInfo, avatarEditProfile, formAvatar, nameImageInput, linkImageInput, popups, inputLink, popupAvatar, buttonProfile,  buttonCard, buttonAvatar, popupPicture, popupImage, popupCaption} from './components/constants.js';
 
-import  Api from './components/api.js';
+import  Api from './components/Api.js';
 import { openPopup, closePopup } from './components/modal.js';
 
 import { createCard } from './components/card.js';
