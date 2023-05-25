@@ -7,7 +7,8 @@ import Card from './components/CCard';
 import { openPopup, closePopup } from './components/modal.js';
 import FormValidator from './components/validate.js';
 import { createCard } from './components/card.js';
-export const formValidaor = new FormValidator ({
+export const formValidator = new FormValidator ({
+  formSelector: '.form',
   inputSelector: '.popup__name',
   submitButtonSelector: '.popup__button',
   inactiveButtonClass: '.popup__button_inactive',
@@ -165,3 +166,5 @@ popups.forEach(popup => { //закрытие на все попапы при к�
     };
   })
 });
+
+import Section from './components/Section';

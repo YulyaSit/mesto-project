@@ -1,9 +1,8 @@
 import { formValidator } from "../index.js";
 //функция которая добавляет класс с ошибкой
 export default class FormValidator {
-  constructor(selectors, formSelector = '.form') {
+  constructor(selectors) {
     this._selectors = selectors
-    this._form = formSelector
   }
 _showInputError(formElement, inputElement, errorMessage) {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
@@ -29,9 +28,9 @@ _isValid(formElement, inputElement) {
   };
 
   if (!inputElement.validity.valid) { //если инпут не проходит валидацию
-   _showInputError(formElement, inputElement, inputElement.validationMessage, this._selectors); //вызываем функцию, которая добавляет класс с ошибкой инпуту (стилизация бордера) и validationMessage(встроенные в браузер сообщения об ошибке);
+   this._showInputError(formElement, inputElement, inputElement.validationMessage, this._selectors); //вызываем функцию, которая добавляет класс с ошибкой инпуту (стилизация бордера) и validationMessage(встроенные в браузер сообщения об ошибке);
   } else { //если инпут проходит валидацию
-    _hideInputError(formElement, inputElement, this._selectors); // вызывать функцию, которая скрывает класс с ошибкой инпуту (стилизация бордера);
+    this._hideInputError(formElement, inputElement, this._selectors); // вызывать функцию, которая скрывает класс с ошибкой инпуту (стилизация бордера);
   };
 };
 
@@ -46,7 +45,7 @@ _hasInvalidInput(inputList) {
 
 //функция для стилизации вкл/выкл кнопки submit
 _toggleButtonState (inputList, buttonElement) { //принимает массив полей и кнопку submit
-  if (_hasInvalidInput(inputList, this._selectors)) { // если хотя бы один инпут невалиден
+  if (this._hasInvalidInput(inputList, this._selectors)) { // если хотя бы один инпут невалиден
     buttonElement.disabled = true; //свойство disabled для отключения кнопки
     buttonElement.classList.add(this._selectors.inactiveButtonClass); //сделай кнопку неактивной
   } else {
@@ -59,28 +58,22 @@ _toggleButtonState (inputList, buttonElement) { //принимает масси�
 _setEventListeners(formElement) {
   const inputList = Array.from(formElement.querySelectorAll(this._selectors.inputSelector)) //находим все поля формы, из псевдомассива преобразуем в массив методом Array.from
   const buttonElement = formElement.querySelector(this._selectors.submitButtonSelector);
-  _toggleButtonState(inputList, buttonElement, this._selectors); //вызываем функцию в обработчике инпута (передаем поля и кнопку)
+  this._toggleButtonState(inputList, buttonElement, this._selectors); //вызываем функцию в обработчике инпута (передаем поля и кнопку)
   formElement.addEventListener('reset', () => { //слушатель для деактивации кнопки
     setTimeout(() => {// `setTimeout` нужен для того, чтобы дождаться очищения формы (вызов уйдет в конце стэка) и только потом вызвать `toggleButtonState`
-      _toggleButtonState(inputList, buttonElement, this._selectors);
+      this._toggleButtonState(inputList, buttonElement, this._selectors);
     }, 0); // достаточно указать 0 миллисекунд, чтобы после `reset` уже сработало действие
   });
   inputList.forEach((inputElement) => { //обходим поля массивом
     inputElement.addEventListener('input', () => { //каждому полю добавляем обработчик событий input
-      _isValid(formElement, inputElement, this._selectors); //в колбеке вызываем функицю isValid и передаем ей форму и элементы в форме
-      _toggleButtonState(inputList, buttonElement, this._selectors); //вызываем функцию в обработчике инпута (передаем поля и кнопку)
+      this._isValid(formElement, inputElement, this._selectors); //в колбеке вызываем функицю isValid и передаем ей форму и элементы в форме
+      this._toggleButtonState(inputList, buttonElement, this._selectors); //вызываем функцию в обработчике инпута (передаем поля и кнопку)
     });
   });
 };
 
-//функция которая перебирает все формы на странице
+//функция валидации
 enableValidation() {
-  const formList = Array.from(document.querySelectorAll(this._form)); //находим все поля формы и делаем из них массив
-  formList.forEach((formElement) => { //делаем перебор всех форм в разметке
-    formElement.addEventListener('submit', (evt) => {
-      evt.preventDefault();
-    }) //отменяем стандартное поведение
-    _setEventListeners(formElement, this._selectors); //вызываем на каждую форму функцию
-  });
+    this._setEventListeners(this._selectors);
 };
 }
