@@ -98,7 +98,7 @@ export default class Card {
         cardImage.alt = this._name;
         userLikes.textContent = this._likes.length;
 
-        if (userInfo.id === this._card.owner._id) { //условие чтобы урна была только на моих карточках
+        if (this._userInfo.id === this._card.owner._id) { //условие чтобы урна была только на моих карточках
           cardUrn.classList.add('button__urn_active')
         }
 

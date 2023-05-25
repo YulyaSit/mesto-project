@@ -3,6 +3,7 @@ import { selectors, buttonOpenPopupProfile, popupEditProfile, buttonAddCard, clo
   formElementAdd, profileAvatar, userInfo, avatarEditProfile, formAvatar, nameImageInput, linkImageInput, popups, inputLink, popupAvatar, buttonProfile,  buttonCard, buttonAvatar, popupPicture, popupImage, popupCaption} from './components/constants.js';
 
 import  Api from './components/Api.js';
+import Card from './components/CCard';
 import { openPopup, closePopup } from './components/modal.js';
 
 import { createCard } from './components/card.js';
@@ -26,9 +27,24 @@ Promise.all([api.getEditProfile(), api.getCards()])
     profileAvatar.src = user.avatar;
     userInfo.id = user._id;
     user._id = userInfo.id
-    cards.forEach((card) => {
-      cardsMain.append(createCard(card,userInfo, openPopupImage))
-    }) //берем массив карточек из сервера и вставляем в нашу разметку
+
+    const cardList = new Section({
+      items: cards,
+      renderer: (item) => {
+        const card = new Card(item, userInfo, '#template-card');
+        const cardElement = card.generate();
+        cardList.addItem(cardElement);
+      }
+    }, cardsMain);
+
+    cardList.renderItems();
+
+    // cards.forEach((card) => {
+    //   // cardsMain.append(createCard(card, userInfo, openPopupImage))
+    //   const cardTest = new Card(card, userInfo, '#template-card');
+    //   const cardElem = cardTest.generate();
+    //   console.log(cardElem);
+    // }) //берем массив карточек из сервера и вставляем в нашу разметку
   })
   .catch((err) => {
     console.log(err) //обработка ошибки
@@ -144,4 +160,5 @@ popups.forEach(popup => { //закрытие на все попапы при к�
 });
 enableValidation(selectors); //вызываем функцию чтобы валидация работала на всех формах
 
-import { enableValidation } from './components/validate.js';
+import { enableValidation } from './components/validate.js';import Section from './components/Section';
+
