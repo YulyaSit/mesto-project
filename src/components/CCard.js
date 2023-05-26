@@ -33,14 +33,13 @@ export default class Card {
         popupPicture.classList.remove('popup_is-opened');
       }
 
-      _setLike(evt) {
-        this._element = this._getElement();
-        const userLikes = this._element.querySelector('.card__likes');
+      _setLike(evt, element) {
+        const userLikes = element.querySelector('.card__likes');
 
         if (!evt.target.classList.contains('card__button-like_active')) {  
           api.pasteLike(this._id)  
             .then((card) => {
-              evt.target.classList.add('card__button-like_active') 
+              evt.target.classList.add('card__button-like_active');
               userLikes.textContent = card.likes.length; 
             })
             .catch((err) => {
@@ -49,8 +48,8 @@ export default class Card {
         } else {
           api.deleteLike(this._id) 
             .then((card) => {
-              evt.target.classList.remove('card__button-like_active') 
-              userLikes.textContent = card.likes.length 
+              evt.target.classList.remove('card__button-like_active');
+              userLikes.textContent = card.likes.length;
             })
             .catch((err) => {
               console.log(err);
@@ -68,21 +67,21 @@ export default class Card {
         });
       }
 
-      _setEventListeners() {
-        this._element = this._getElement();
-
-        const cardImage = this._element.querySelector('.card__image');
-        const cardButtonLike = this._element.querySelector('.card__button-like')
-        const cardUrn = this._element.querySelector('.button__urn');
+      _setEventListeners(element) {
+        const cardImage = element.querySelector('.card__image');
+        const cardButtonLike = element.querySelector('.card__button-like')
+        const cardUrn = element.querySelector('.button__urn');
         
         cardImage.addEventListener('click', () => {
           this._handleOpenPopup();
           } 
         )
 
-        cardButtonLike.addEventListener('click', this._setLike);
+        cardButtonLike.addEventListener('click', (evt) => {
+          this._setLike(evt, element);
+        });
         
-        cardUrn.addEventListener('click', this._deleteCard(this._element));
+        cardUrn.addEventListener('click', this._deleteCard(element));
       }
 
       generate() {
@@ -107,6 +106,8 @@ export default class Card {
             cardButtonLike.classList.add('card__button-like_active')
           }
         });
+
+        this._setEventListeners(this._element);
 
         return this._element;
       }
