@@ -1,7 +1,7 @@
 import './pages/index.css'
 import { buttonOpenPopupProfile, popupEditProfile, buttonAddCard, closeButtons, popupAdd, cardsMain, nameInput, profileForm, jobInput, profileName, profileProfession, 
   formElementAdd, profileAvatar, userInfo, avatarEditProfile, formAvatar, nameImageInput, linkImageInput, popups, inputLink, popupAvatar, buttonProfile,  buttonCard, buttonAvatar, popupPicture, popupImage, popupCaption} from './components/constants.js';
-
+import Popup from './components/Popup.js'
 import  Api from './components/Api.js';
 import Card from './components/CCard';
 import { openPopup, closePopup } from './components/modal.js';
@@ -27,6 +27,9 @@ export const api = new Api ({
     }
     return Promise.reject(`Ошибка: ${res.status}`)
   }
+})
+export const popup = new Popup({
+  popupSelector: '.popup'
 })
 Promise.all([api.getEditProfile(), api.getCards()])
   .then(([user, cards]) => {
@@ -92,12 +95,12 @@ function handleAvatarFormSubmit(evt) { // функция для  формы из
 
 formAvatar.addEventListener('submit', handleAvatarFormSubmit) //слушатель самбита для авы
 
-closeButtons.forEach((button) => { //закрытие попапов на крестик
+/*closeButtons.forEach((button) => { //закрытие попапов на крестик
   // находим 1 раз ближайший к крестику попап 
   const popup = button.closest('.popup');
   // устанавливаем обработчик закрытия на крестик
   button.addEventListener('click', () => closePopup(popup));
-});
+});*/
 
 buttonAddCard.addEventListener('click', function () { //слушатель на кнопку открытия попапа добавления карточки
   openPopup(popupAdd);

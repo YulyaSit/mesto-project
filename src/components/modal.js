@@ -15,4 +15,5 @@ function closePopup(popup) { //универсальная функция зак�
   document.removeEventListener('keydown', handleEscape); //навесили на весь документ html слушатель нажатия кнопки и функции с условием
 };
 
-export {openPopup, closePopup}
+export {openPopup, closePopup
+}
