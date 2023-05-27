@@ -1,6 +1,6 @@
 import { api } from "..";
 import { popupCaption, popupImage, popupPicture } from "./constants";
-
+import { popupWithImage,popup } from "../index.js";
 export default class Card {
     constructor(card, userInfo, selector) {
         this._card = card;
@@ -21,18 +21,6 @@ export default class Card {
 
         return cardClone;
       }
-      
-      _handleOpenPopup() {
-        popupImage.src = this._link;
-        popupCaption.textContent = this._name;
-        popupPicture.classList.add('popup_opened');
-      }
-    
-      _handleClosePopup() {
-        popupImage.src = '';
-        popupPicture.classList.remove('popup_is-opened');
-      }
-
       _setLike(evt, element) {
         const userLikes = element.querySelector('.card__likes');
 
@@ -73,15 +61,14 @@ export default class Card {
         const cardUrn = element.querySelector('.button__urn');
         
         cardImage.addEventListener('click', () => {
-          this._handleOpenPopup();
-          } 
-        )
+          popupWithImage.open(this._link, this._name)
+        })
 
         cardButtonLike.addEventListener('click', (evt) => {
           this._setLike(evt, element);
         });
         
-        cardUrn.addEventListener('click', this._deleteCard(element));
+        cardUrn.addEventListener('click', () => { this._deleteCard(element)});
       }
 
       generate() {

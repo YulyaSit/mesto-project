@@ -7,6 +7,7 @@ import Card from './components/CCard';
 import { openPopup, closePopup } from './components/modal.js';
 import FormValidator from './components/validate.js';
 import { createCard } from './components/card.js';
+import PopupWithImage from './components/PopupWithImage.js';
 export const formValidator = new FormValidator ({
   formSelector: '.form',
   inputSelector: '.popup__name',
@@ -15,6 +16,7 @@ export const formValidator = new FormValidator ({
   inputErrorClass: '.popup__name_invalid',
   errorClass: '.popup__input-error_active'
 })
+export const popupWithImage = new PopupWithImage()
 export const api = new Api ({
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-23',
   headers: {
@@ -60,21 +62,21 @@ Promise.all([api.getEditProfile(), api.getCards()])
   .catch((err) => {
     console.log(err) //обработка ошибки
   })
-export function openPopupImage(link, name) { //функция в которой передаем данные в попап открытия карточки(картинки)
+/*export function openPopupImage(link, name) { //функция в которой передаем данные в попап открытия карточки(картинки)
   popupImage.src = link
   popupCaption.textContent = name
   openPopup(popupPicture)
-}
+}*/
 buttonOpenPopupProfile.addEventListener('click', function () { //слушатель для попапа редактирования профиля(ниже описание подробное)
   //навешиваем слушатель, при клике на кнопку редактирования профиля срабатывает универсальная функция открытия попапа
   //привязываем к полям ввода текста значения, которые будут при активных значениях
-  openPopup(popupEditProfile)
+  popup.open(popupEditProfile)
   nameInput.value = profileName.textContent
   jobInput.value = profileProfession.textContent
 })
 
 avatarEditProfile.addEventListener('click', function () { //открытие попапа с редактированием аватара
-  openPopup(popupAvatar)
+  popup.open(popupAvatar)
 })
 
 function handleAvatarFormSubmit(evt) { // функция для  формы измненения авы
@@ -83,7 +85,7 @@ function handleAvatarFormSubmit(evt) { // функция для  формы из
   api.patchEditAvatar(inputLink.value)
     .then(data => {
       profileAvatar.src = data.avatar
-      closePopup(popupAvatar)
+      popup.close(popupAvatar)
     })
     .catch((err) => {
       console.log(err)
@@ -93,8 +95,7 @@ function handleAvatarFormSubmit(evt) { // функция для  формы из
     })
 };
 
-formAvatar.addEventListener('submit', handleAvatarFormSubmit) //слушатель самбита для авы
-
+formAvatar.addEventListener('submit', handleAvatarFormSubmit) //слушатель самбита для авы\
 /*closeButtons.forEach((button) => { //закрытие попапов на крестик
   // находим 1 раз ближайший к крестику попап 
   const popup = button.closest('.popup');
@@ -103,7 +104,7 @@ formAvatar.addEventListener('submit', handleAvatarFormSubmit) //слушател
 });*/
 
 buttonAddCard.addEventListener('click', function () { //слушатель на кнопку открытия попапа добавления карточки
-  openPopup(popupAdd);
+  popup.open(popupAdd);
 });
 
 function renderLoading(isLoading, button, buttonLoading = 'Сохранение..', buttonText = 'Сохранить') { //универсальная функция для загрузки
@@ -125,7 +126,7 @@ function handleProfileFormSubmit(evt) {
     .then(data => {
       profileName.textContent = data.name
       profileProfession.textContent = data.about
-      closePopup(popupEditProfile);
+      popup.close(popupEditProfile);
     })
     .catch((err) => {
       console.log(err)
@@ -135,8 +136,7 @@ function handleProfileFormSubmit(evt) {
     })
 }
 
-
-
+popup.setEventListeners()
 //функция для создания новой карточки через попап
 function handleFormSubmitAdd(evt) { // Эта строчка отменяет стандартную отправку формы.
   // Так мы можем определить свою логику отправки.
@@ -147,7 +147,7 @@ function handleFormSubmitAdd(evt) { // Эта строчка отменяет с
       linkImageInput.value = card.link
       nameImageInput.value = card.name
       cardsMain.prepend(createCard(card, userInfo))
-      closePopup(popupAdd);
+      popup.close(popupAdd);
       evt.target.reset();
     })
     .catch((err) => {
@@ -162,12 +162,6 @@ function handleFormSubmitAdd(evt) { // Эта строчка отменяет с
 profileForm.addEventListener('submit', handleProfileFormSubmit); //слушатель для формы профиля
 formElementAdd.addEventListener('submit', handleFormSubmitAdd); //слушатель для формы создания карточки
 
-popups.forEach(popup => { //закрытие на все попапы при клике мышки на оверлей
-  popup.addEventListener('mousedown', (evt) => {
-    if (evt.target.classList.contains('popup_opened')) {
-      closePopup(popup);
-    };
-  })
-});
+
 
 import Section from './components/Section';
