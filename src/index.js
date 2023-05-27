@@ -1,13 +1,16 @@
 import './pages/index.css'
-import { buttonOpenPopupProfile, popupEditProfile, buttonAddCard, closeButtons, popupAdd, cardsMain, nameInput, profileForm, jobInput, profileName, profileProfession, 
+import { buttonOpenPopupProfile, popupEditProfile, buttonAddCard, closeButtons, popupAdd, cardsMain, nameInput, profileForm, jobInput, profileName, profileProfession,
   formElementAdd, profileAvatar, userInfo, avatarEditProfile, formAvatar, nameImageInput, linkImageInput, popups, inputLink, popupAvatar, buttonProfile,  buttonCard, buttonAvatar, popupPicture, popupImage, popupCaption} from './components/constants.js';
 import Popup from './components/Popup.js'
 import  Api from './components/Api.js';
 import Card from './components/CCard';
+import UserInfoo from './components/UserInfo';
 import { openPopup, closePopup } from './components/modal.js';
 import FormValidator from './components/validate.js';
 import { createCard } from './components/card.js';
 import PopupWithImage from './components/PopupWithImage.js';
+
+
 export const formValidator = new FormValidator ({
   formSelector: '.form',
   inputSelector: '.popup__name',
@@ -16,6 +19,7 @@ export const formValidator = new FormValidator ({
   inputErrorClass: '.popup__name_invalid',
   errorClass: '.popup__input-error_active'
 })
+
 export const popupWithImage = new PopupWithImage()
 export const api = new Api ({
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-23',
@@ -30,6 +34,16 @@ export const api = new Api ({
     return Promise.reject(`Ошибка: ${res.status}`)
   }
 })
+
+/* для тестов */
+
+const userInfoTest = new UserInfoo('.profile__name', '.profile__profession');
+console.log(userInfoTest.getUserInfo());
+
+/* конец */
+
+
+
 export const popup = new Popup({
   popupSelector: '.popup'
 })
@@ -97,7 +111,7 @@ function handleAvatarFormSubmit(evt) { // функция для  формы из
 
 formAvatar.addEventListener('submit', handleAvatarFormSubmit) //слушатель самбита для авы\
 /*closeButtons.forEach((button) => { //закрытие попапов на крестик
-  // находим 1 раз ближайший к крестику попап 
+  // находим 1 раз ближайший к крестику попап
   const popup = button.closest('.popup');
   // устанавливаем обработчик закрытия на крестик
   button.addEventListener('click', () => closePopup(popup));
@@ -142,7 +156,7 @@ function handleFormSubmitAdd(evt) { // Эта строчка отменяет с
   // Так мы можем определить свою логику отправки.
   evt.preventDefault();
   renderLoading(true, buttonCard)
-  api.postCard(nameImageInput.value, linkImageInput.value) //вставка карточки 
+  api.postCard(nameImageInput.value, linkImageInput.value) //вставка карточки
     .then((card) => {
       linkImageInput.value = card.link
       nameImageInput.value = card.name
@@ -164,4 +178,5 @@ formElementAdd.addEventListener('submit', handleFormSubmitAdd); //слушате
 
 
 
-import Section from './components/Section';
+import Section from './components/Section';import UserInfo from './components/UserInfo';
+
