@@ -1,8 +1,8 @@
 import { api } from "..";
-import { popupCaption, popupImage, popupPicture } from "./constants";
+import { popupCaption, popupImage, popupPicture, userInfo } from "./constants";
 import { popupWithImage,popup } from "../index.js";
 export default class Card {
-    constructor(card, userInfo, selector) {
+    constructor(card, selector) {
         this._card = card;
         this._likes = card.likes;
         this._link = card.link;

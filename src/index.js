@@ -1,6 +1,6 @@
 import './pages/index.css'
 import { buttonOpenPopupProfile, popupEditProfile, buttonAddCard, closeButtons, popupAdd, cardsMain, nameInput, profileForm, jobInput, profileName, profileProfession,
-  formElementAdd, profileAvatar, userInfo, avatarEditProfile, formAvatar, nameImageInput, linkImageInput, popups, inputLink, popupAvatar, buttonProfile,  buttonCard, buttonAvatar, popupPicture, popupImage, popupCaption} from './components/constants.js';
+  formElementAdd, profileAvatar, userInfo, avatarEditProfile, formAvatar, nameImageInput, linkImageInput, popups, inputLink, popupAvatar, buttonProfile,  buttonCard, buttonAvatar, popupPicture, popupImage, popupCaption, UserInfoObj} from './components/constants.js';
 import Popup from './components/Popup.js'
 import  Api from './components/Api.js';
 import Card from './components/CCard';
@@ -35,47 +35,58 @@ export const api = new Api ({
   }
 })
 
-/* для тестов */
-
-const userInfoTest = new UserInfoo('.profile__name', '.profile__profession');
-console.log(userInfoTest.getUserInfo());
-
-/* конец */
-
-
-
 export const popup = new Popup({
   popupSelector: '.popup'
 })
-Promise.all([api.getEditProfile(), api.getCards()])
+
+
+export const section = new Section({
+  items: [],
+  renderer: (item) => {
+    const card = new Card(item, '#template-card');
+    const cardElement = card.generate();
+    section.addItem(cardElement);
+  }
+}, cardsMain);
+
+export const userInfoTest = new UserInfoo( { 
+  profileName : '.profile__name', 
+  profileProfession :'.profile__profession' 
+} );
+
+Promise.all([userInfoTest.getUserInfo(), api.getCards()])
   .then(([user, cards]) => {
     profileName.textContent = user.name;
     profileProfession.textContent = user.about;
     profileAvatar.src = user.avatar;
     userInfo.id = user._id;
-    user._id = userInfo.id
+    user._id = userInfo.id;
 
-    const cardList = new Section({
-      items: cards,
-      renderer: (item) => {
-        const card = new Card(item, userInfo, '#template-card');
-        const cardElement = card.generate();
-        cardList.addItem(cardElement);
-      }
-    }, cardsMain);
+    section.setItems(cards);
 
-    cardList.renderItems();
-
-    // cards.forEach((card) => {
-    //   // cardsMain.append(createCard(card, userInfo, openPopupImage))
-    //   const cardTest = new Card(card, userInfo, '#template-card');
-    //   const cardElem = cardTest.generate();
-    //   console.log(cardElem);
-    // }) //берем массив карточек из сервера и вставляем в нашу разметку
+    section.renderItems();
   })
   .catch((err) => {
     console.log(err) //обработка ошибки
   })
+
+  // Promise.all([api.getEditProfile(), api.getCards()])
+  // .then(([user, cards]) => {
+  //   profileName.textContent = user.name;
+  //   profileProfession.textContent = user.about;
+  //   profileAvatar.src = user.avatar;
+  //   userInfo.id = user._id;
+  //   user._id = userInfo.id
+
+  //   section.setItems(cards);
+
+  //   section.renderItems();
+  // })
+  // .catch((err) => {
+  //   console.log(err) //обработка ошибки
+  // })
+
+
 /*export function openPopupImage(link, name) { //функция в которой передаем данные в попап открытия карточки(картинки)
   popupImage.src = link
   popupCaption.textContent = name
