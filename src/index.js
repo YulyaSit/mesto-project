@@ -20,6 +20,8 @@ const profileValidate = new FormValidator({
   form: '.form'
 })
 profileValidate.enableValidation()
+export const popupWithImage = new PopupWithImage('#popup-picture');
+popupWithImage.setEventListeners();
 export const api = new Api ({
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-23',
   headers: {
