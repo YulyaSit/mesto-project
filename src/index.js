@@ -19,10 +19,7 @@ const profileValidate = new FormValidator({
 }, {
   form: '.form'
 })
-
 profileValidate.enableValidation()
-
-export const popupWithImage = new PopupWithImage()
 export const api = new Api ({
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-23',
   headers: {
@@ -37,9 +34,9 @@ export const api = new Api ({
   }
 })
 
-export const popup = new Popup({
-  popupSelector: '.popup'
-})
+// export const popup = new Popup({
+//   popupSelector: '.popup'
+// })
 
 export const section = new Section({
   items: [],
@@ -158,7 +155,7 @@ function handleProfileFormSubmit(evt) {
     })
 }
 
-popup.setEventListeners()
+//popup.setEventListeners()
 //функция для создания новой карточки через попап
 function handleFormSubmitAdd(evt) { // Эта строчка отменяет стандартную отправку формы.
   // Так мы можем определить свою логику отправки.

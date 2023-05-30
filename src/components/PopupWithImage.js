@@ -5,8 +5,8 @@ export default class PopupWithImage extends Popup {
         super(popup)
     }
     open(link, name) {
+        super.open();
         popupImage.src = link;
         popupCaption.textContent = name;
-        super.open(popupPicture)
     }
 }
