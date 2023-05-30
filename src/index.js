@@ -10,15 +10,17 @@ import FormValidator from './components/validate.js';
 import { createCard } from './components/card.js';
 import PopupWithImage from './components/PopupWithImage.js';
 
-
-export const formValidator = new FormValidator ({
-  formSelector: '.form',
+const profileValidate = new FormValidator({
   inputSelector: '.popup__name',
   submitButtonSelector: '.popup__button',
   inactiveButtonClass: '.popup__button_inactive',
   inputErrorClass: '.popup__name_invalid',
   errorClass: '.popup__input-error_active'
+}, {
+  form: '.form'
 })
+
+profileValidate.enableValidation()
 
 export const popupWithImage = new PopupWithImage()
 export const api = new Api ({
@@ -38,7 +40,6 @@ export const api = new Api ({
 export const popup = new Popup({
   popupSelector: '.popup'
 })
-
 
 export const section = new Section({
   items: [],
@@ -87,11 +88,7 @@ Promise.all([userInfoTest.getUserInfo(), api.getCards()])
   // })
 
 
-/*export function openPopupImage(link, name) { //функция в которой передаем данные в попап открытия карточки(картинки)
-  popupImage.src = link
-  popupCaption.textContent = name
-  openPopup(popupPicture)
-}*/
+
 buttonOpenPopupProfile.addEventListener('click', function () { //слушатель для попапа редактирования профиля(ниже описание подробное)
   //навешиваем слушатель, при клике на кнопку редактирования профиля срабатывает универсальная функция открытия попапа
   //привязываем к полям ввода текста значения, которые будут при активных значениях
