@@ -1,36 +1,46 @@
 import { closeButtons, popups } from "./constants"
 export default class Popup {
     constructor(popup) {
-        this.popup = popup
+        this._popup = document.querySelector(popup);
     }
-    open(popup) {
-        popup.classList.add('popup_opened')
-        document.addEventListener('keydown', this._handleEscClose)
+
+    open() {
+        this._popup.classList.add('popup_opened')
+        document.addEventListener('keydown', (evt) => this._handleEscClose(evt));
     }
-    close(popup) {
-        popup.classList.remove('popup_opened')
-        document.removeEventListener('keydown', this._handleEscClose)
-        }
+
+    close() {
+        this._popup.classList.remove('popup_opened')
+        document.removeEventListener('keydown', (evt) => this._handleEscClose(evt))
+    }
+
    _handleEscClose(evt) {
-        if (evt.key === 'Escape') { //условие если пользователь нажмет на ескейп то вызовутся функции закрытия попапа  
-            const openedPopup = document.querySelector('.popup_opened');
-            this.close(openedPopup);
+        if (evt.key === 'Escape') { 
+          this.close();
           };
     }
-    setEventListeners(evt) {
-        closeButtons.forEach((button) => { //закрытие попапов на крестик
-            // находим 1 раз ближайший к крестику попап 
-            const popup = button.closest('.popup');
-            // устанавливаем обработчик закрытия на крестик
-            button.addEventListener('click', () => this.close(popup));
-          });
-          popups.forEach(popup => { //закрытие на все попапы при клике мышки на оверлей
-            popup.addEventListener('mousedown', (evt) => {
-              if (evt.target.classList.contains('popup_opened')) {
-                this.close(popup);
-              };
-            })
-          });
+
+    setEventListeners() {
+        // closeButtons.forEach((button) => { //закрытие попапов на крестик
+        //     // находим 1 раз ближайший к крестику попап 
+        //     const popup = button.closest('.popup');
+        //     // устанавливаем обработчик закрытия на крестик
+        //     button.addEventListener('click', () => this.close(popup));
+        //   });
+        //   popups.forEach(popup => { //закрытие на все попапы при клике мышки на оверлей
+        //     popup.addEventListener('mousedown', (evt) => {
+        //       if (evt.target.classList.contains('popup_opened')) {
+        //         this.close(popup);
+        //       };
+        //     })
+        //   });
+        this._popup.addEventListener('click', (evt) => {
+          const elem = evt.target;
+
+          if(elem.classList.contains('popup') || elem.classList.contains('popup__button-close')) {
+            this.close();
+          }
+        })
     }
 }
 
