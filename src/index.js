@@ -1,22 +1,20 @@
 import './pages/index.css'
 import { buttonOpenPopupProfile, popupEditProfile, buttonAddCard, closeButtons, popupAdd, cardsMain, nameInput, profileForm, jobInput, profileName, profileProfession,
   formElementAdd, profileAvatar, userInfo, avatarEditProfile, formAvatar, nameImageInput, linkImageInput, popups, inputLink, popupAvatar, buttonProfile,  buttonCard, buttonAvatar, popupPicture, popupImage, popupCaption, UserInfoObj} from './components/constants.js';
-import Popup from './components/Popup.js'
 import  Api from './components/Api.js';
 import Card from './components/CCard';
 import UserInfoo from './components/UserInfo';
-import { openPopup, closePopup } from './components/modal.js';
 import FormValidator from './components/validate.js';
 import { createCard } from './components/card.js';
 import PopupWithImage from './components/PopupWithImage.js';
 import PopupWithForm from './components/PopupWithForm.js';
 
-export const openPopupEdit = new PopupWithForm('#popup-edit')
-openPopupEdit.setEventListeners()
-export const openPopupCard = new PopupWithForm('#popup-add')
-openPopupCard.setEventListeners()
-export const openPopupAvatar = new PopupWithForm('#popup-avatar')
-openPopupAvatar.setEventListeners()
+// export const openPopupEdit = new PopupWithForm('#popup-edit')
+// openPopupEdit.setEventListeners()
+// export const openPopupCard = new PopupWithForm('#popup-add')
+// openPopupCard.setEventListeners()
+// export const openPopupAvatar = new PopupWithForm('#popup-avatar')
+// openPopupAvatar.setEventListeners()
 
 const profileValidate = new FormValidator({
   inputSelector: '.popup__name',
@@ -28,7 +26,10 @@ const profileValidate = new FormValidator({
   form: '.form'
 })
 profileValidate.enableValidation()
+
 export const popupWithImage = new PopupWithImage('#popup-picture');
+popupWithImage.setEventListeners();
+
 export const api = new Api ({
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-23',
   headers: {
@@ -42,10 +43,6 @@ export const api = new Api ({
     return Promise.reject(`Ошибка: ${res.status}`)
   }
 })
-
-// export const popup = new Popup({
-//   popupSelector: '.popup'
-// })
 
 export const section = new Section({
   items: [],
@@ -61,7 +58,7 @@ export const userInfoTest = new UserInfoo( {
   profileProfession :'.profile__profession' 
 } );
 
-Promise.all([userInfoTest.getUserInfo(), api.getCards()])
+Promise.all([api.getEditProfile(), api.getCards()])
   .then(([user, cards]) => {
     profileName.textContent = user.name;
     profileProfession.textContent = user.about;
@@ -76,22 +73,6 @@ Promise.all([userInfoTest.getUserInfo(), api.getCards()])
   .catch((err) => {
     console.log(err) //обработка ошибки
   })
-
-  // Promise.all([api.getEditProfile(), api.getCards()])
-  // .then(([user, cards]) => {
-  //   profileName.textContent = user.name;
-  //   profileProfession.textContent = user.about;
-  //   profileAvatar.src = user.avatar;
-  //   userInfo.id = user._id;
-  //   user._id = userInfo.id
-
-  //   section.setItems(cards);
-
-  //   section.renderItems();
-  // })
-  // .catch((err) => {
-  //   console.log(err) //обработка ошибки
-  // })
 
 
 
@@ -131,8 +112,12 @@ formAvatar.addEventListener('submit', handleAvatarFormSubmit) //слушател
   button.addEventListener('click', () => closePopup(popup));
 });*/
 
+const popupAddCard = new PopupWithForm('#popup-add');
+popupAddCard.setEventListeners();
+popupAddCard.print();
+
 buttonAddCard.addEventListener('click', function () { //слушатель на кнопку открытия попапа добавления карточки
-  popup.open(popupAdd);
+  popupAddCard.open();
 });
 
 function renderLoading(isLoading, button, buttonLoading = 'Сохранение..', buttonText = 'Сохранить') { //универсальная функция для загрузки
