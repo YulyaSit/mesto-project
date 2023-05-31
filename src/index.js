@@ -9,6 +9,14 @@ import { openPopup, closePopup } from './components/modal.js';
 import FormValidator from './components/validate.js';
 import { createCard } from './components/card.js';
 import PopupWithImage from './components/PopupWithImage.js';
+import PopupWithForm from './components/PopupWithForm.js';
+
+export const openPopupEdit = new PopupWithForm('#popup-edit')
+openPopupEdit.setEventListeners()
+export const openPopupCard = new PopupWithForm('#popup-add')
+openPopupCard.setEventListeners()
+export const openPopupAvatar = new PopupWithForm('#popup-avatar')
+openPopupAvatar.setEventListeners()
 
 const profileValidate = new FormValidator({
   inputSelector: '.popup__name',
@@ -21,7 +29,6 @@ const profileValidate = new FormValidator({
 })
 profileValidate.enableValidation()
 export const popupWithImage = new PopupWithImage('#popup-picture');
-popupWithImage.setEventListeners();
 export const api = new Api ({
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-23',
   headers: {
