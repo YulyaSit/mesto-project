@@ -10,14 +10,5 @@ export default class PopupWithForm extends Popup {
     }
     setEventListeners() {
         super.setEventListeners()
-        buttonOpenPopupProfile.addEventListener('click', () => {
-            openPopupEdit.open()
-        })
-        buttonAddCard.addEventListener('click', () => {
-            openPopupCard.open()
-        })
-        avatarEditProfile.addEventListener('click', () => {
-            openPopupAvatar.open()
-        })
     }
   }

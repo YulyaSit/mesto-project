@@ -10,24 +10,22 @@ import FormValidator from './components/validate.js';
 import { createCard } from './components/card.js';
 import PopupWithImage from './components/PopupWithImage.js';
 import PopupWithForm from './components/PopupWithForm.js';
-
-export const openPopupEdit = new PopupWithForm('#popup-edit')
-openPopupEdit.setEventListeners()
-export const openPopupCard = new PopupWithForm('#popup-add')
-openPopupCard.setEventListeners()
-export const openPopupAvatar = new PopupWithForm('#popup-avatar')
-openPopupAvatar.setEventListeners()
-
-const profileValidate = new FormValidator({
+const selectors = {
   inputSelector: '.popup__name',
   submitButtonSelector: '.popup__button',
-  inactiveButtonClass: '.popup__button_inactive',
-  inputErrorClass: '.popup__name_invalid',
-  errorClass: '.popup__input-error_active'
-}, {
-  form: '.form'
-})
-profileValidate.enableValidation()
+  inactiveButtonClass: 'popup__button_inactive',
+  inputErrorClass: 'popup__name_invalid',
+  errorClass: 'popup__input-error_active'
+}
+const popupEdit = new Popup('#popup-edit')
+const avatarPopup = new Popup('#popup-avatar')
+const cardPopup = new Popup('#popup-add')
+const avatarValidate = new FormValidator(selectors, formAvatar)
+const profileValidate = new FormValidator(selectors, popupEditProfile)
+const cardValidate = new FormValidator(selectors, popupAdd)
+avatarValidate.enableValidation(selectors)
+profileValidate.enableValidation(selectors)
+cardValidate.enableValidation(selectors)
 export const popupWithImage = new PopupWithImage('#popup-picture');
 export const api = new Api ({
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-23',
@@ -98,13 +96,13 @@ Promise.all([userInfoTest.getUserInfo(), api.getCards()])
 buttonOpenPopupProfile.addEventListener('click', function () { //слушатель для попапа редактирования профиля(ниже описание подробное)
   //навешиваем слушатель, при клике на кнопку редактирования профиля срабатывает универсальная функция открытия попапа
   //привязываем к полям ввода текста значения, которые будут при активных значениях
-  popup.open(popupEditProfile)
+  popupEdit.open(popupEditProfile)
   nameInput.value = profileName.textContent
   jobInput.value = profileProfession.textContent
 })
 
 avatarEditProfile.addEventListener('click', function () { //открытие попапа с редактированием аватара
-  popup.open(popupAvatar)
+  avatarPopup.open(popupAvatar)
 })
 
 function handleAvatarFormSubmit(evt) { // функция для  формы измненения авы
@@ -132,7 +130,7 @@ formAvatar.addEventListener('submit', handleAvatarFormSubmit) //слушател
 });*/
 
 buttonAddCard.addEventListener('click', function () { //слушатель на кнопку открытия попапа добавления карточки
-  popup.open(popupAdd);
+  cardPopup.open(popupAdd);
 });
 
 function renderLoading(isLoading, button, buttonLoading = 'Сохранение..', buttonText = 'Сохранить') { //универсальная функция для загрузки

@@ -1,11 +1,9 @@
-import { formValidator } from "../index.js";
-//функция которая добавляет класс с ошибкой
 export default class FormValidator {
   constructor(selectors, form) {
     this._selectors = selectors
     this._form = form
-    this._buttonElement = document.querySelector('.popup__button')
-    this._inputList = Array.from(document.querySelectorAll(selectors.inputSelector))
+    this._buttonElement = this._form.querySelector(this._selectors.submitButtonSelector)
+    this._inputList = Array.from(this._form.querySelectorAll(this._selectors.inputSelector))
   }
 _showInputError(inputElement, errorMessage) {
   const errorElement = document.querySelector(`.${inputElement.id}-error`);
@@ -47,7 +45,7 @@ _hasInvalidInput() {
 
 
 //функция для стилизации вкл/выкл кнопки submit
-_toggleButtonState () { //принимает массив полей и кнопку submit
+_toggleButtonState() { //принимает массив полей и кнопку submit
   if (this._hasInvalidInput()) { // если хотя бы один инпут невалиден
     this._buttonElement.disabled = true; //свойство disabled для отключения кнопки
     this._buttonElement.classList.add(this._selectors.inactiveButtonClass); //сделай кнопку неактивной
@@ -56,10 +54,6 @@ _toggleButtonState () { //принимает массив полей и кноп
     this._buttonElement.classList.remove(this._selectors.inactiveButtonClass);
   };
 };
-disableSubmitButton() {
-  this._buttonElement.disabled = true;
-  this._buttonElement.classList.add(this._selectors.inactiveButtonClass);
-}
 //функция которая перебирает все элементы в форме
 _setEventListeners() {
   this._inputList.forEach((inputElement) => { //обходим поля массивом
@@ -69,11 +63,11 @@ _setEventListeners() {
     });
   });  
    //вызываем функцию в обработчике инпута (передаем поля и кнопку)
-  /*formElement.addEventListener('reset', () => { //слушатель для деактивации кнопки
+  this._form.addEventListener('reset', () => { //слушатель для деактивации кнопки
     setTimeout(() => {// `setTimeout` нужен для того, чтобы дождаться очищения формы (вызов уйдет в конце стэка) и только потом вызвать `toggleButtonState`
       this._toggleButtonState(this._inputList, this._buttonElement, this._selectors);
     }, 0); // достаточно указать 0 миллисекунд, чтобы после `reset` уже сработало действие
-  });*/
+  });
 };
 
 //функция валидации
