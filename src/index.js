@@ -88,8 +88,8 @@ buttonOpenPopupProfile.addEventListener('click', function () { //слушате�
 const popupAvatarEdit = new PopupWithForm(
   '#popup-avatar',
   {
-    callback: ( { link } ) => {
-      api.patchEditAvatar(link)
+    callback: ( { url } ) => {
+      api.patchEditAvatar(url)
       .then(data => {
         profileAvatar.src = data.avatar;
         popupAvatarEdit.close()
