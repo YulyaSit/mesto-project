@@ -47,7 +47,6 @@ const popupAvatarEdit = new PopupWithForm(
   '#popup-avatar',
   {
     callback: ( { url } ) => {
-     renderLoading(true, buttonAvatar)
       api.patchEditAvatar(url)
       .then(data => {
         profileAvatar.src = data.avatar;
@@ -57,7 +56,7 @@ const popupAvatarEdit = new PopupWithForm(
         console.log(err)
       })
       .finally((ok) => {
-        renderLoading(false, buttonAvatar)
+        popupAvatarEdit.renderLoading(false)
       })
     }
   }
@@ -67,9 +66,7 @@ const popupProfileEdit = new PopupWithForm(
   '#popup-edit',
   {
     callback: ( { } ) => {
-      renderLoading(true, buttonProfile)
       userInfoTest.setUserInfo(nameInput.value, jobInput.value)
-      renderLoading(false,buttonProfile)
       popupProfileEdit.close()
     }
   }
@@ -89,15 +86,6 @@ popupAvatarEdit.setEventListeners();
 avatarEditProfile.addEventListener('click', function () { //открытие попапа с редактированием аватара
   popupAvatarEdit.open();
 })
-
-function renderLoading(isLoading, button, buttonLoading = 'Сохранение..', buttonText = 'Сохранить') { //универсальная функция для загрузки
-  if (isLoading) {
-     button.value = buttonLoading
-  } else {
-     button.value = buttonText
-  }
-}
-
 
 // export const popup = new Popup({
 //   popupSelector: '.popup'
