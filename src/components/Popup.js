@@ -21,26 +21,26 @@ export default class Popup {
     }
 
     setEventListeners() {
-        // closeButtons.forEach((button) => { //закрытие попапов на крестик
-        //     // находим 1 раз ближайший к крестику попап 
-        //     const popup = button.closest('.popup');
-        //     // устанавливаем обработчик закрытия на крестик
-        //     button.addEventListener('click', () => this.close(popup));
-        //   });
-        //   popups.forEach(popup => { //закрытие на все попапы при клике мышки на оверлей
-        //     popup.addEventListener('mousedown', (evt) => {
-        //       if (evt.target.classList.contains('popup_opened')) {
-        //         this.close(popup);
-        //       };
-        //     })
-        //   });
-        this._popup.addEventListener('click', (evt) => {
+        closeButtons.forEach((button) => { //закрытие попапов на крестик
+             // находим 1 раз ближайший к крестику попап 
+             const popup = button.closest('.popup');
+             // устанавливаем обработчик закрытия на крестик
+             button.addEventListener('click', () => this.close());
+           });
+           popups.forEach(popup => { //закрытие на все попапы при клике мышки на оверлей
+             popup.addEventListener('mousedown', (evt) => {
+             if (evt.target.classList.contains('popup_opened')) {
+                 this.close();
+               };
+             })
+           });
+        /*this._popup.addEventListener('click', (evt) => {
           const elem = evt.target;
 
           if(elem.classList.contains('popup') || elem.classList.contains('popup__button-close')) {
             this.close();
           }
-        })
+        })*/
     }
 }
 

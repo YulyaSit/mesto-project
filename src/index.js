@@ -18,7 +18,7 @@ const selectors = {
   errorClass: 'popup__input-error_active'
 }
 const popupEdit = new Popup('#popup-edit')
-const avatarPopup = new Popup('#popup-avatar')
+/*const avatarPopup = new Popup('#popup-avatar')*/
 const cardPopup = new Popup('#popup-add')
 const avatarValidate = new FormValidator(selectors, formAvatar)
 const profileValidate = new FormValidator(selectors, popupEditProfile)
@@ -27,6 +27,7 @@ avatarValidate.enableValidation(selectors)
 profileValidate.enableValidation(selectors)
 cardValidate.enableValidation(selectors)
 export const popupWithImage = new PopupWithImage('#popup-picture');
+popupWithImage.setEventListeners()
 export const api = new Api ({
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-23',
   headers: {
@@ -40,6 +41,43 @@ export const api = new Api ({
     return Promise.reject(`Ошибка: ${res.status}`)
   }
 })
+
+
+
+
+
+const popupAvatarEdit = new PopupWithForm(
+  '#popup-avatar',
+  {
+    callback: ( { url } ) => {
+     renderLoading(true, buttonAvatar)
+      api.patchEditAvatar(url)
+      .then(data => {
+        profileAvatar.src = data.avatar;
+        popupAvatarEdit.close()
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+      .finally((ok) => {
+        renderLoading(false, buttonAvatar)
+      })
+    }
+  }
+);
+popupAvatarEdit.setEventListeners();
+avatarEditProfile.addEventListener('click', function () { //открытие попапа с редактированием аватара
+  popupAvatarEdit.open();
+})
+
+function renderLoading(isLoading, button, buttonLoading = 'Сохранение..', buttonText = 'Сохранить') { //универсальная функция для загрузки
+  if (isLoading) {
+     button.value = buttonLoading
+  } else {
+     button.value = buttonText
+  }
+}
+
 
 // export const popup = new Popup({
 //   popupSelector: '.popup'
@@ -101,27 +139,13 @@ buttonOpenPopupProfile.addEventListener('click', function () { //слушате�
   jobInput.value = profileProfession.textContent
 })
 
-avatarEditProfile.addEventListener('click', function () { //открытие попапа с редактированием аватара
+/*avatarEditProfile.addEventListener('click', function () { //открытие попапа с редактированием аватара
   avatarPopup.open(popupAvatar)
-})
+})*/
 
-function handleAvatarFormSubmit(evt) { // функция для  формы измненения авы
-  evt.preventDefault()
-  renderLoading(true, buttonAvatar) //функция изменение текста кнопки "Сохранение..." во время загрузки
-  api.patchEditAvatar(inputLink.value)
-    .then(data => {
-      profileAvatar.src = data.avatar
-      popup.close(popupAvatar)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-    .finally((ok) => {
-      renderLoading(false, buttonAvatar)
-    })
-};
 
-formAvatar.addEventListener('submit', handleAvatarFormSubmit) //слушатель самбита для авы\
+
+ //слушатель самбита для авы\
 /*closeButtons.forEach((button) => { //закрытие попапов на крестик
   // находим 1 раз ближайший к крестику попап
   const popup = button.closest('.popup');
@@ -133,13 +157,7 @@ buttonAddCard.addEventListener('click', function () { //слушатель на 
   cardPopup.open(popupAdd);
 });
 
-function renderLoading(isLoading, button, buttonLoading = 'Сохранение..', buttonText = 'Сохранить') { //универсальная функция для загрузки
-  if (isLoading) {
-     button.value = buttonLoading
-  } else {
-     button.value = buttonText
-  }
-}
+
 // Обработчик «отправки» формы профиля
 function handleProfileFormSubmit(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
