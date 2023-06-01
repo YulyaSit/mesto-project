@@ -15,7 +15,7 @@ export default class PopupWithForm extends Popup {
 
         this._inputList.forEach((input) => {
             if(input.type !== 'submit') {
-                inputValues[input.type] = input.value;
+                inputValues[input.name] = input.value;
             }
         })
 

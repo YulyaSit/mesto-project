@@ -5,7 +5,6 @@ import Popup from './components/Popup.js'
 import  Api from './components/Api.js';
 import Card from './components/CCard';
 import UserInfoo from './components/UserInfo';
-import { openPopup, closePopup } from './components/modal.js';
 import FormValidator from './components/validate.js';
 import { createCard } from './components/card.js';
 import PopupWithImage from './components/PopupWithImage.js';
@@ -17,14 +16,11 @@ const selectors = {
   inputErrorClass: 'popup__name_invalid',
   errorClass: 'popup__input-error_active'
 }
-const popupEdit = new Popup('#popup-edit')
-/*const avatarPopup = new Popup('#popup-avatar')*/
-const cardPopup = new Popup('#popup-add')
-const avatarValidate = new FormValidator(selectors, formAvatar)
-const profileValidate = new FormValidator(selectors, popupEditProfile)
-const cardValidate = new FormValidator(selectors, popupAdd)
-avatarValidate.enableValidation(selectors)
-profileValidate.enableValidation(selectors)
+const avatarValidate = new FormValidator(selectors, formAvatar);
+const profileValidate = new FormValidator(selectors, popupEditProfile);
+const cardValidate = new FormValidator(selectors, popupAdd);
+avatarValidate.enableValidation(selectors);
+profileValidate.enableValidation(selectors);
 cardValidate.enableValidation(selectors)
 export const popupWithImage = new PopupWithImage('#popup-picture');
 popupWithImage.setEventListeners()
@@ -46,8 +42,9 @@ export const api = new Api ({
 const popupAvatarEdit = new PopupWithForm(
   '#popup-avatar',
   {
-    callback: ( { url } ) => {
-      api.patchEditAvatar(url)
+    callback: ( { link } ) => {
+      popupAvatarEdit.renderLoading(true);
+      api.patchEditAvatar(link)
       .then(data => {
         profileAvatar.src = data.avatar;
         popupAvatarEdit.close()
@@ -62,34 +59,33 @@ const popupAvatarEdit = new PopupWithForm(
   }
 );
 
-const popupProfileEdit = new PopupWithForm(
-  '#popup-edit',
-  {
-    callback: ( { } ) => {
-      userInfoTest.setUserInfo(nameInput.value, jobInput.value)
-      popupProfileEdit.close()
-    }
-  }
-)
-
-
-
-popupProfileEdit.setEventListeners()
-buttonOpenPopupProfile.addEventListener('click', function () {
-  popupProfileEdit.open()
-  nameInput.value = profileName.textContent
-  jobInput.value = profileName.textContent
-})
-
-
 popupAvatarEdit.setEventListeners();
 avatarEditProfile.addEventListener('click', function () { //открытие попапа с редактированием аватара
   popupAvatarEdit.open();
 })
 
-// export const popup = new Popup({
-//   popupSelector: '.popup'
-// })
+
+const popupProfileEdit = new PopupWithForm(
+  '#popup-edit',
+  {
+    callback: ( { name, profession } ) => {
+      popupProfileEdit.renderLoading(true);
+      userInfoTest.setUserInfo(name, profession);
+      popupProfileEdit.renderLoading(true);
+      popupProfileEdit.close();
+    }
+  }
+)
+popupProfileEdit.setEventListeners()
+popupProfileEdit.print();
+buttonOpenPopupProfile.addEventListener('click', function () {
+  popupProfileEdit.open();
+  nameInput.value = profileName.textContent
+  jobInput.value = profileName.textContent
+})
+
+
+
 
 export const section = new Section({
   items: [],
@@ -121,24 +117,6 @@ Promise.all([userInfoTest.getUserInfo(), api.getCards()])
     console.log(err) //обработка ошибки
   })
 
-  // Promise.all([api.getEditProfile(), api.getCards()])
-  // .then(([user, cards]) => {
-  //   profileName.textContent = user.name;
-  //   profileProfession.textContent = user.about;
-  //   profileAvatar.src = user.avatar;
-  //   userInfo.id = user._id;
-  //   user._id = userInfo.id
-
-  //   section.setItems(cards);
-
-  //   section.renderItems();
-  // })
-  // .catch((err) => {
-  //   console.log(err) //обработка ошибки
-  // })
-
-
-
 /*buttonOpenPopupProfile.addEventListener('click', function () { //слушатель для попапа редактирования профиля(ниже описание подробное)
   //навешиваем слушатель, при клике на кнопку редактирования профиля срабатывает универсальная функция открытия попапа
   //привязываем к полям ввода текста значения, которые будут при активных значениях
@@ -161,8 +139,29 @@ Promise.all([userInfoTest.getUserInfo(), api.getCards()])
   button.addEventListener('click', () => closePopup(popup));
 });*/
 
+const popupAddCard = new PopupWithForm(
+  '#popup-add',
+  {
+    callback: ( { name, link } ) => {
+      popupAddCard.renderLoading(true);
+      api.postCard(name, link) //вставка карточки
+    .then((card) => {
+      const newCard = new Card(card, '#template-card');
+      section.addItem(newCard.generate());
+      popupAddCard.close();
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+    .finally((ok) => {
+      popupAddCard.renderLoading(false);
+    })
+    }
+  }
+  );
+popupAddCard.setEventListeners();
 buttonAddCard.addEventListener('click', function () { //слушатель на кнопку открытия попапа добавления карточки
-  cardPopup.open(popupAdd);
+  popupAddCard.open();
 });
 
 
@@ -190,29 +189,29 @@ buttonAddCard.addEventListener('click', function () { //слушатель на 
 
 //popup.setEventListeners()
 //функция для создания новой карточки через попап
-function handleFormSubmitAdd(evt) { // Эта строчка отменяет стандартную отправку формы.
-  // Так мы можем определить свою логику отправки.
-  evt.preventDefault();
-  renderLoading(true, buttonCard)
-  api.postCard(nameImageInput.value, linkImageInput.value) //вставка карточки
-    .then((card) => {
-      linkImageInput.value = card.link
-      nameImageInput.value = card.name
-      cardsMain.prepend(createCard(card, userInfo))
-      popup.close(popupAdd);
-      evt.target.reset();
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-    .finally((ok) => {
-      renderLoading(false, buttonCard)
-    })
-}
+// function handleFormSubmitAdd(evt) { // Эта строчка отменяет стандартную отправку формы.
+//   // Так мы можем определить свою логику отправки.
+//   evt.preventDefault();
+//   renderLoading(true, buttonCard)
+//   api.postCard(nameImageInput.value, linkImageInput.value) //вставка карточки
+//     .then((card) => {
+//       linkImageInput.value = card.link
+//       nameImageInput.value = card.name
+//       cardsMain.prepend(createCard(card, userInfo))
+//       popup.close(popupAdd);
+//       evt.target.reset();
+//     })
+//     .catch((err) => {
+//       console.log(err)
+//     })
+//     .finally((ok) => {
+//       renderLoading(false, buttonCard)
+//     })
+// }
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
 /*profileForm.addEventListener('submit', handleProfileFormSubmit); //слушатель для формы профиля*/
-formElementAdd.addEventListener('submit', handleFormSubmitAdd); //слушатель для формы создания карточки
+// formElementAdd.addEventListener('submit', handleFormSubmitAdd); //слушатель для формы создания карточки
 
 
 

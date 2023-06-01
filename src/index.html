@@ -82,7 +82,7 @@
       <form class="popup__container popup__container_add form" name="popup-form-add" novalidate>
           <h2 class="popup__heading">
             Новое место</h2>
-              <input id="input-three" type="text" value="" class="popup__name popup__name_image popup__input" name="name" placeholder="Название" pattern="[A-Za-z-А-Яа-яЁё\s\-]+$" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы" minlength="2" maxlength="30" required>
+              <input id="input-three" type="text" value="" class="popup__name popup__name_image popup__input" name="name" placeholder="Название" pattern="^[a-zA-Zа-яёА-ЯЁ\s\-]+$" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы" minlength="2" maxlength="30" required>
               <span class="popup__input-error input-three-error"></span>
               <input id="input-four" type="url" value=""  class="popup__name popup__name_link popup__input" name="link" placeholder="Ссылка на картинку" required>
               <span class="popup__input-error input-four-error"></span>
@@ -103,7 +103,7 @@
       <form class="popup__container popup__container_add form-avatar form" name="popup-form-avatar" novalidate>
           <h2 class="popup__heading">
             Обновить аватар</h2>
-              <input id="input-five" type="url" value=""  class="popup__name popup__name_link popup__input link-avatar" name="link-avatar" placeholder="Ссылка на аватар" required>
+              <input id="input-five" type="url" value=""  class="popup__name popup__name_link popup__input link-avatar" name="link" placeholder="Ссылка на аватар" required>
               <span class="popup__input-error input-five-error"></span>
               <input type="submit" class="popup__button" name="save" value="Сохранить">
       </form>

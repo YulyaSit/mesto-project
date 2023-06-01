@@ -21,10 +21,7 @@ export default class Popup {
     }
 
     setEventListeners() {
-        closeButtons.forEach((button) => { //закрытие попапов на крестик
-             // находим 1 раз ближайший к крестику попап 
-             const popup = button.closest('.popup');
-             // устанавливаем обработчик закрытия на крестик
+        closeButtons.forEach((button) => { 
              button.addEventListener('click', () => this.close());
            });
            popups.forEach(popup => { //закрытие на все попапы при клике мышки на оверлей
@@ -34,17 +31,5 @@ export default class Popup {
                };
              })
            });
-        /*this._popup.addEventListener('click', (evt) => {
-          const elem = evt.target;
-
-          if(elem.classList.contains('popup') || elem.classList.contains('popup__button-close')) {
-            this.close();
-          }
-        })*/
     }
 }
-
-/*if (evt.key === 'Escape') { //условие если пользователь нажмет на ескейп то вызовутся функции закрытия попапа  
-    const openedPopup = document.querySelector('.popup_opened');
-    closePopup(openedPopup);
-  };*/
