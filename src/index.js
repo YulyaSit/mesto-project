@@ -53,9 +53,9 @@ export const section = new Section({
   }
 }, cardsMain);
 
-export const userInfoTest = new UserInfoo( { 
-  profileName : '.profile__name', 
-  profileProfession :'.profile__profession' 
+export const userInfoTest = new UserInfoo( {
+  profileName : '.profile__name',
+  profileProfession :'.profile__profession'
 } );
 
 Promise.all([api.getEditProfile(), api.getCards()])
@@ -84,27 +84,46 @@ buttonOpenPopupProfile.addEventListener('click', function () { //слушате�
   jobInput.value = profileProfession.textContent
 })
 
+
+const popupAvatarEdit = new PopupWithForm(
+  '#popup-avatar',
+  {
+    callback: ( { link } ) => {
+      api.patchEditAvatar(link)
+      .then(data => {
+        profileAvatar.src = data.avatar;
+        popupAvatarEdit.close()
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    }
+  }
+);
+popupAvatarEdit.setEventListeners();
+popupAvatarEdit.print();
+
 avatarEditProfile.addEventListener('click', function () { //открытие попапа с редактированием аватара
-  popup.open(popupAvatar)
+  popupAvatarEdit.open();
 })
 
-function handleAvatarFormSubmit(evt) { // функция для  формы измненения авы
-  evt.preventDefault()
-  renderLoading(true, buttonAvatar) //функция изменение текста кнопки "Сохранение..." во время загрузки
-  api.patchEditAvatar(inputLink.value)
-    .then(data => {
-      profileAvatar.src = data.avatar
-      popup.close(popupAvatar)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-    .finally((ok) => {
-      renderLoading(false, buttonAvatar)
-    })
-};
+// function handleAvatarFormSubmit(evt) { // функция для  формы измненения авы
+//   evt.preventDefault()
+//   renderLoading(true, buttonAvatar) //функция изменение текста кнопки "Сохранение..." во время загрузки
+//   api.patchEditAvatar(inputLink.value)
+//     .then(data => {
+//       profileAvatar.src = data.avatar
+//       popup.close(popupAvatar)
+//     })
+//     .catch((err) => {
+//       console.log(err)
+//     })
+//     .finally((ok) => {
+//       renderLoading(false, buttonAvatar)
+//     })
+// };
 
-formAvatar.addEventListener('submit', handleAvatarFormSubmit) //слушатель самбита для авы\
+// formAvatar.addEventListener('submit', handleAvatarFormSubmit) //слушатель самбита для авы\
 /*closeButtons.forEach((button) => { //закрытие попапов на крестик
   // находим 1 раз ближайший к крестику попап
   const popup = button.closest('.popup');
