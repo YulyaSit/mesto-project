@@ -43,9 +43,6 @@ export const api = new Api ({
 })
 
 
-
-
-
 const popupAvatarEdit = new PopupWithForm(
   '#popup-avatar',
   {
@@ -65,6 +62,29 @@ const popupAvatarEdit = new PopupWithForm(
     }
   }
 );
+
+const popupProfileEdit = new PopupWithForm(
+  '#popup-edit',
+  {
+    callback: ( { } ) => {
+      renderLoading(true, buttonProfile)
+      userInfoTest.setUserInfo(nameInput.value, jobInput.value)
+      renderLoading(false,buttonProfile)
+      popupProfileEdit.close()
+    }
+  }
+)
+
+
+
+popupProfileEdit.setEventListeners()
+buttonOpenPopupProfile.addEventListener('click', function () {
+  popupProfileEdit.open()
+  nameInput.value = profileName.textContent
+  jobInput.value = profileName.textContent
+})
+
+
 popupAvatarEdit.setEventListeners();
 avatarEditProfile.addEventListener('click', function () { //открытие попапа с редактированием аватара
   popupAvatarEdit.open();
@@ -131,13 +151,13 @@ Promise.all([userInfoTest.getUserInfo(), api.getCards()])
 
 
 
-buttonOpenPopupProfile.addEventListener('click', function () { //слушатель для попапа редактирования профиля(ниже описание подробное)
+/*buttonOpenPopupProfile.addEventListener('click', function () { //слушатель для попапа редактирования профиля(ниже описание подробное)
   //навешиваем слушатель, при клике на кнопку редактирования профиля срабатывает универсальная функция открытия попапа
   //привязываем к полям ввода текста значения, которые будут при активных значениях
   popupEdit.open(popupEditProfile)
   nameInput.value = profileName.textContent
   jobInput.value = profileProfession.textContent
-})
+})*/
 
 /*avatarEditProfile.addEventListener('click', function () { //открытие попапа с редактированием аватара
   avatarPopup.open(popupAvatar)
@@ -159,7 +179,7 @@ buttonAddCard.addEventListener('click', function () { //слушатель на 
 
 
 // Обработчик «отправки» формы профиля
-function handleProfileFormSubmit(evt) {
+/*function handleProfileFormSubmit(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   // Так мы можем определить свою логику отправки.
   // Получите значение полей jobInput и nameInput из свойства value
@@ -178,7 +198,7 @@ function handleProfileFormSubmit(evt) {
     .finally((ok) => {
       renderLoading(false, buttonProfile)
     })
-}
+}*/
 
 //popup.setEventListeners()
 //функция для создания новой карточки через попап
@@ -203,7 +223,7 @@ function handleFormSubmitAdd(evt) { // Эта строчка отменяет с
 }
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
-profileForm.addEventListener('submit', handleProfileFormSubmit); //слушатель для формы профиля
+/*profileForm.addEventListener('submit', handleProfileFormSubmit); //слушатель для формы профиля*/
 formElementAdd.addEventListener('submit', handleFormSubmitAdd); //слушатель для формы создания карточки
 
 
