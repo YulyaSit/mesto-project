@@ -1,6 +1,4 @@
 import Popup from "./Popup.js"
-import { openPopupCard, openPopupEdit, openPopupAvatar } from "../index.js"
-import { buttonOpenPopupProfile, buttonAddCard, avatarEditProfile} from "./constants.js"
 export default class PopupWithForm extends Popup {
     constructor(popup, { callback }) {
         super(popup);
@@ -14,22 +12,22 @@ export default class PopupWithForm extends Popup {
         const inputValues = {};
 
         this._inputList.forEach((input) => {
-            if(input.type !== 'submit') {
+            if (input.type !== 'submit') {
                 inputValues[input.name] = input.value;
             }
         })
 
         return inputValues;
     }
-    renderLoading(isLoading) { 
-    const buttonLoading = 'Сохранение..' 
-    const buttonText = 'Сохранить' //универсальная функция для загрузки
+    renderLoading(isLoading) {
+        const buttonLoading = 'Сохранение..'
+        const buttonText = 'Сохранить' //универсальная функция для загрузки
         if (isLoading) {
-           this._button.value = buttonLoading
+            this._button.value = buttonLoading
         } else {
-           this._button.value = buttonText
+            this._button.value = buttonText
         }
-      }
+    }
 
     setEventListeners() {
         super.setEventListeners();
@@ -48,4 +46,4 @@ export default class PopupWithForm extends Popup {
     print() {
         console.log(this._getInputValues());
     }
-  }
+}
