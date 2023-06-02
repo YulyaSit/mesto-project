@@ -1,15 +1,14 @@
-import { userInfo } from "../utils/constants.js";
-import { popupWithImage } from "../index.js";
 export default class Card {
-  constructor(card, selector, api) {
+  constructor(card, selector, api, { handleCardClick }) {
     this._card = card;
     this._likes = card.likes;
     this._link = card.link;
     this._name = card.name;
     this._id = card._id;
-    this._userInfo = userInfo;
+    this._userInfo = document.querySelector('.container');
     this._selector = selector;
     this._api = api;
+    this._handleCardClick = handleCardClick;
   }
 
   _getElement() {
@@ -54,9 +53,7 @@ export default class Card {
   }
 
   _setEventListeners() {
-    this._cardImage.addEventListener('click', () => {
-      popupWithImage.open(this._link, this._name)
-    })
+    this._cardImage.addEventListener('click', this._handleCardClick)
 
     this._cardButtonLike.addEventListener('click', (evt) => {
       this._setLike(evt);

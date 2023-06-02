@@ -81,7 +81,13 @@ buttonOpenPopupProfile.addEventListener('click', function () {
 export const section = new Section({
   items: [],
   renderer: (item) => {
-    const card = new Card(item, '#template-card', api);
+    const card = new Card(
+      item,
+      '#template-card',
+      api,
+      {handleCardClick: () => {
+        popupWithImage.open(item.link, item.name);
+      }});
     const cardElement = card.generate();
     section.addItem(cardElement);
   }
