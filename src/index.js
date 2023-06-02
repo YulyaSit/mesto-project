@@ -4,7 +4,7 @@ import {
   profileAvatar, userInfo, avatarEditProfile, formAvatar, selectors
 } from './utils/constants.js';
 import Api from './components/Api.js';
-import Card from './components/Card';
+import Card from './components/Card'
 import UserInfoo from './components/UserInfo';
 import FormValidator from './components/FormValidator.js';
 import PopupWithImage from './components/PopupWithImage.js';
@@ -81,7 +81,7 @@ buttonOpenPopupProfile.addEventListener('click', function () {
 export const section = new Section({
   items: [],
   renderer: (item) => {
-    const card = new Card(item, '#template-card');
+    const card = new Card(item, '#template-card', api);
     const cardElement = card.generate();
     section.addItem(cardElement);
   }
@@ -115,7 +115,7 @@ const popupAddCard = new PopupWithForm(
       popupAddCard.renderLoading(true);
       api.postCard(name, link) //вставка карточки
         .then((card) => {
-          const newCard = new Card(card, '#template-card');
+          const newCard = new Card(card, '#template-card', api);
           section.addItem(newCard.generate());
           popupAddCard.close();
         })
