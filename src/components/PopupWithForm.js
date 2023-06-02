@@ -5,7 +5,8 @@ export default class PopupWithForm extends Popup {
         this._callback = callback;
         this._form = this._popup.querySelector('.form');
         this._inputList = Array.from(this._form.elements);
-        this._button = this._form.querySelector('.popup__button')
+        this._buttonValue = this._form.querySelector('.popup__button')
+        this._buttonValueText = this._buttonValue.value
     }
 
     _getInputValues() {
@@ -19,13 +20,11 @@ export default class PopupWithForm extends Popup {
 
         return inputValues;
     }
-    renderLoading(isLoading) {
-        const buttonLoading = 'Сохранение..'
-        const buttonText = 'Сохранить' //универсальная функция для загрузки
+    renderLoading(isLoading, isLoadingText = 'Сохранение...') {
         if (isLoading) {
-            this._button.value = buttonLoading
+            this._buttonValue.value = isLoadingText
         } else {
-            this._button.value = buttonText
+            this._buttonValue.value = this._buttonValueText
         }
     }
 
