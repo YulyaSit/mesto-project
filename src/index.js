@@ -2,14 +2,16 @@ import './pages/index.css'
 import {
   buttonOpenPopupProfile, popupEditProfile, buttonAddCard, popupAdd, cardsMain, nameInput, jobInput, profileName, profileProfession,
   profileAvatar, userInfo, avatarEditProfile, formAvatar, selectors
-} from './components/constants.js';
+} from './utils/constants.js';
 import Api from './components/Api.js';
-import Card from './components/CCard';
+import Card from './components/Card';
 import UserInfoo from './components/UserInfo';
-import FormValidator from './components/validate.js';
+import FormValidator from './components/FormValidator.js';
 import PopupWithImage from './components/PopupWithImage.js';
 import PopupWithForm from './components/PopupWithForm.js';
 import Section from './components/Section';
+import Popup from './components/Popup';
+
 
 const avatarValidate = new FormValidator(selectors, formAvatar);
 const profileValidate = new FormValidator(selectors, popupEditProfile);

@@ -1,5 +1,5 @@
 import { api } from "..";
-import { userInfo } from "./constants";
+import { userInfo } from "../utils/constants.js";
 import { popupWithImage } from "../index.js";
 export default class Card {
   constructor(card, selector) {

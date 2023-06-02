@@ -1,7 +1,8 @@
-import { closeButtons, popups } from "./constants"
 export default class Popup {
   constructor(popup) {
     this._popup = document.querySelector(popup);
+    this._closeButtons = document.querySelectorAll('.popup__button-close')
+    this._popups = document.querySelectorAll('.popup')
   }
 
   open() {
@@ -21,10 +22,11 @@ export default class Popup {
   }
 
   setEventListeners() {
-    closeButtons.forEach((button) => {
-      button.addEventListener('click', () => this.close());
+    this._closeButtons.forEach((button) => {
+      const popup = button.closest('.popup')
+      button.addEventListener('click', () => this.close(popup));
     });
-    popups.forEach(popup => { //закрытие на все попапы при клике мышки на оверлей
+    this._popups.forEach(popup => { //закрытие на все попапы при клике мышки на оверлей
       popup.addEventListener('mousedown', (evt) => {
         if (evt.target.classList.contains('popup_opened')) {
           this.close();
