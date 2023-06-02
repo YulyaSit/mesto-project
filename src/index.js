@@ -11,7 +11,6 @@ import PopupWithImage from './components/PopupWithImage.js';
 import PopupWithForm from './components/PopupWithForm.js';
 import Section from './components/Section';
 
-
 const avatarValidate = new FormValidator(selectors, formAvatar);
 const profileValidate = new FormValidator(selectors, popupEditProfile);
 const cardValidate = new FormValidator(selectors, popupAdd);
@@ -78,20 +77,27 @@ buttonOpenPopupProfile.addEventListener('click', function () {
   jobInput.value = profileName.textContent
 })
 
+function createCard(item) {
+  const card = new Card(
+    item,
+    '#template-card',
+    api,
+    {handleCardClick: () => {
+      popupWithImage.open(item.link, item.name);
+    }});
+
+  const cardElement = card.generate();
+
+  return cardElement;
+}
+
 export const section = new Section({
   items: [],
   renderer: (item) => {
-    const card = new Card(
-      item,
-      '#template-card',
-      api,
-      {handleCardClick: () => {
-        popupWithImage.open(item.link, item.name);
-      }});
-    const cardElement = card.generate();
+    const cardElement = createCard(item);
     section.addItem(cardElement);
   }
-}, cardsMain);
+}, '.cards');
 
 export const userInfoTest = new UserInfoo({
   profileName: '.profile__name',
