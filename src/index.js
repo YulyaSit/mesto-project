@@ -10,7 +10,6 @@ import FormValidator from './components/FormValidator.js';
 import PopupWithImage from './components/PopupWithImage.js';
 import PopupWithForm from './components/PopupWithForm.js';
 import Section from './components/Section';
-import Popup from './components/Popup';
 
 
 const avatarValidate = new FormValidator(selectors, formAvatar);

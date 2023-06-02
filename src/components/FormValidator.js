@@ -65,7 +65,7 @@ export default class FormValidator {
     //вызываем функцию в обработчике инпута (передаем поля и кнопку)
     this._form.addEventListener('reset', () => { //слушатель для деактивации кнопки
       setTimeout(() => {// `setTimeout` нужен для того, чтобы дождаться очищения формы (вызов уйдет в конце стэка) и только потом вызвать `toggleButtonState`
-        this._toggleButtonState(this._inputList, this._buttonElement, this._selectors);
+        this._toggleButtonState();
       }, 0); // достаточно указать 0 миллисекунд, чтобы после `reset` уже сработало действие
     });
   };
