@@ -15,9 +15,9 @@ import Section from './components/Section';
 const avatarValidate = new FormValidator(selectors, formAvatar);
 const profileValidate = new FormValidator(selectors, popupEditProfile);
 const cardValidate = new FormValidator(selectors, popupAdd);
-avatarValidate.enableValidation(selectors);
-profileValidate.enableValidation(selectors);
-cardValidate.enableValidation(selectors)
+avatarValidate.enableValidation();
+profileValidate.enableValidation();
+cardValidate.enableValidation()
 export const popupWithImage = new PopupWithImage('#popup-picture');
 popupWithImage.setEventListeners()
 export const api = new Api({
