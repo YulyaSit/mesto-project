@@ -2,7 +2,7 @@ export default class Api {
   constructor(options) {
     this.baseUrl = options.baseUrl;
     this.headers = options.headers;
-    this.settings = options.settings;
+    this.settings = options.settings
   }
   getEditProfile() { //гет запрос для информации о пользователе
     return fetch(`${this.baseUrl}/users/me`, {
@@ -19,8 +19,8 @@ export default class Api {
         name: profileName,
         about: profileProfession
       })
+        .then(this.settings)
     })
-      .then(this.settings)
   }
 
   patchEditAvatar(profileAvatar) { //патч запрос для изменения аватара
@@ -30,8 +30,8 @@ export default class Api {
       body: JSON.stringify({
         avatar: profileAvatar
       })
+        .then(this.settings)
     })
-      .then(this.settings)
   }
 
   getCards() { //гет запрос карточек 

@@ -71,7 +71,6 @@ const popupProfileEdit = new PopupWithForm(
   }
 )
 popupProfileEdit.setEventListeners()
-popupProfileEdit.print();
 buttonOpenPopupProfile.addEventListener('click', function () {
   popupProfileEdit.open();
   nameInput.value = profileName.textContent
@@ -99,7 +98,6 @@ Promise.all([userInfoTest.getUserInfo(), api.getCards()])
     profileAvatar.src = user.avatar;
     userInfo.id = user._id;
     user._id = userInfo.id;
-
     section.setItems(cards);
 
     section.renderItems();

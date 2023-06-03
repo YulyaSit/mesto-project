@@ -41,8 +41,4 @@ export default class PopupWithForm extends Popup {
         super.close();
         this._form.reset();
     }
-
-    print() {
-        console.log(this._getInputValues());
-    }
 }
