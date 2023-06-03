@@ -62,10 +62,19 @@ const popupProfileEdit = new PopupWithForm(
   '#popup-edit',
   {
     callback: ({ name, profession }) => {
-      popupProfileEdit.renderLoading(true);
-      userInfoTest.setUserInfo(name, profession);
-      popupProfileEdit.renderLoading(true);
-      popupProfileEdit.close();
+      popupAvatarEdit.renderLoading(true);
+      api.patchEditProfile(name, profession)
+        .then(data => {
+          profileName.textContent = data.name;
+          profileProfession.textContent = data.about;
+          popupProfileEdit.close();
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+        .finally((ok) => {
+          popupProfileEdit.renderLoading(false)
+        })
     }
   }
 )
@@ -104,7 +113,7 @@ export const userInfoTest = new UserInfoo({
   profileProfession: '.profile__profession'
 });
 
-Promise.all([userInfoTest.getUserInfo(), api.getCards()])
+Promise.all([api.getEditProfile(), api.getCards()])
   .then(([user, cards]) => {
     profileName.textContent = user.name;
     profileProfession.textContent = user.about;
