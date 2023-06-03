@@ -4,7 +4,8 @@ class UserInfo {
       this._nameElement = document.querySelector(nameSelector);
       this.jobElement = document.querySelector(jobSelector);
       this._avatarElement = document.querySelector(avatarSelector);
-      this._userId = document.querySelector(idSelector).id;
+      this._idElem = document.querySelector(idSelector);
+      this._userId = this._idElem.id;
     }
 
     // метод getUserInfo должен возвращать данные из профиля, взяв их из `textContent`.
@@ -20,6 +21,6 @@ class UserInfo {
       this._nameElement.textContent = name;
       this.jobElement.textContent = about;
       this._avatarElement.src = avatar;
-      this._userId = _id;
+      this._idElem.id = _id;
     }
   }
