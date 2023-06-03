@@ -10,6 +10,7 @@ import FormValidator from './components/FormValidator.js';
 import PopupWithImage from './components/PopupWithImage.js';
 import PopupWithForm from './components/PopupWithForm.js';
 import Section from './components/Section';
+import UserInfo from './components/UserInfo';
 
 const avatarValidate = new FormValidator(selectors, formAvatar);
 const profileValidate = new FormValidator(selectors, popupEditProfile);
@@ -17,9 +18,10 @@ const cardValidate = new FormValidator(selectors, popupAdd);
 avatarValidate.enableValidation();
 profileValidate.enableValidation();
 cardValidate.enableValidation()
-export const popupWithImage = new PopupWithImage('#popup-picture');
+const popupWithImage = new PopupWithImage('#popup-picture');
 popupWithImage.setEventListeners()
-export const api = new Api({
+
+const api = new Api({
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-23',
   headers: {
     authorization: '3720e224-e620-430e-9649-e363bea978d6',
@@ -33,6 +35,13 @@ export const api = new Api({
   }
 })
 
+const userInfoOwn = new UserInfo( {
+  nameSelector: '.profile__name',
+  jobSelector: '.profile__profession',
+  avatarSelector: '.profile__avatar',
+  idSelector: '.container'
+} );
+
 const popupAvatarEdit = new PopupWithForm(
   '#popup-avatar',
   {
@@ -40,7 +49,12 @@ const popupAvatarEdit = new PopupWithForm(
       popupAvatarEdit.renderLoading(true);
       api.patchEditAvatar(link)
         .then(data => {
-          profileAvatar.src = data.avatar;
+          userInfoOwn.setUserInfo( {
+            name: data.name,
+            about: data.about,
+            avatar: data.avatar,
+            _id: data._id
+          } );
           popupAvatarEdit.close()
         })
         .catch((err) => {
@@ -62,11 +76,15 @@ const popupProfileEdit = new PopupWithForm(
   '#popup-edit',
   {
     callback: ({ name, profession }) => {
-      popupAvatarEdit.renderLoading(true);
+      popupProfileEdit.renderLoading(true);
       api.patchEditProfile(name, profession)
         .then(data => {
-          profileName.textContent = data.name;
-          profileProfession.textContent = data.about;
+          userInfoOwn.setUserInfo({
+            name: data.name,
+            about: data.about,
+            avatar: data.avatar,
+            _id: data._id
+          })
           popupProfileEdit.close();
         })
         .catch((err) => {
@@ -79,11 +97,12 @@ const popupProfileEdit = new PopupWithForm(
   }
 )
 popupProfileEdit.setEventListeners()
-popupProfileEdit.print();
+
 buttonOpenPopupProfile.addEventListener('click', function () {
   popupProfileEdit.open();
-  nameInput.value = profileName.textContent
-  jobInput.value = profileName.textContent
+  const { name, about} = userInfoOwn.getUserInfo();
+  nameInput.value = name;
+  jobInput.value = about;
 })
 
 function createCard(item) {
@@ -108,18 +127,14 @@ export const section = new Section({
   }
 }, '.cards');
 
-export const userInfoTest = new UserInfoo({
-  profileName: '.profile__name',
-  profileProfession: '.profile__profession'
-});
-
 Promise.all([api.getEditProfile(), api.getCards()])
   .then(([user, cards]) => {
-    profileName.textContent = user.name;
-    profileProfession.textContent = user.about;
-    profileAvatar.src = user.avatar;
-    userInfo.id = user._id;
-    user._id = userInfo.id;
+    userInfoOwn.setUserInfo(
+      { name: user.name,
+        about: user.about,
+        avatar: user.avatar,
+        _id: user._id }
+      );
 
     section.setItems(cards);
 
