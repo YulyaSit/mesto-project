@@ -1,9 +1,10 @@
 class UserInfo {
     // теперь все данные пользователя устанавливаются тут, включая аватар
-    constructor({ nameSelector, jobSelector, avatarSelector }) {
+    constructor({ nameSelector, jobSelector, avatarSelector, idSelector }) {
       this._nameElement = document.querySelector(nameSelector);
       this.jobElement = document.querySelector(jobSelector);
       this._avatarElement = document.querySelector(avatarSelector);
+      this._userId = document.querySelector(idSelector).id;
     }
 
     // метод getUserInfo должен возвращать данные из профиля, взяв их из `textContent`.
