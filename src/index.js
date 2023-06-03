@@ -1,11 +1,9 @@
 import './pages/index.css'
 import {
-  buttonOpenPopupProfile, popupEditProfile, buttonAddCard, popupAdd, cardsMain, nameInput, jobInput, profileName, profileProfession,
-  profileAvatar, userInfo, avatarEditProfile, formAvatar, selectors
+  buttonOpenPopupProfile, popupEditProfile, buttonAddCard, popupAdd, nameInput, jobInput, avatarEditProfile, formAvatar, selectors
 } from './utils/constants.js';
 import Api from './components/Api.js';
 import Card from './components/Card'
-import UserInfoo from './components/UserInfo';
 import FormValidator from './components/FormValidator.js';
 import PopupWithImage from './components/PopupWithImage.js';
 import PopupWithForm from './components/PopupWithForm.js';
@@ -143,7 +141,11 @@ const popupAddCard = new PopupWithForm(
       popupAddCard.renderLoading(true);
       api.postCard(name, link) //вставка карточки
         .then((card) => {
-          const newCard = new Card(card, '#template-card', api);
+          const newCard = new Card(card, '#template-card', api, {
+            handleCardClick: function () {
+              popupWithImage.open(item.link, item.name)
+            }
+          });
           section.addItem(newCard.generate());
           popupAddCard.close();
         })
