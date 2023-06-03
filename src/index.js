@@ -4,13 +4,12 @@ import {
   profileAvatar, userInfo, avatarEditProfile, formAvatar, selectors
 } from './utils/constants.js';
 import Api from './components/Api.js';
-import Card from './components/Card';
+import Card from './components/Card'
 import UserInfoo from './components/UserInfo';
 import FormValidator from './components/FormValidator.js';
 import PopupWithImage from './components/PopupWithImage.js';
 import PopupWithForm from './components/PopupWithForm.js';
 import Section from './components/Section';
-
 
 const avatarValidate = new FormValidator(selectors, formAvatar);
 const profileValidate = new FormValidator(selectors, popupEditProfile);
@@ -63,10 +62,19 @@ const popupProfileEdit = new PopupWithForm(
   '#popup-edit',
   {
     callback: ({ name, profession }) => {
-      popupProfileEdit.renderLoading(true);
-      userInfoTest.setUserInfo(name, profession);
-      popupProfileEdit.renderLoading(true);
-      popupProfileEdit.close();
+      popupAvatarEdit.renderLoading(true);
+      api.patchEditProfile(name, profession)
+        .then(data => {
+          profileName.textContent = data.name;
+          profileProfession.textContent = data.about;
+          popupProfileEdit.close();
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+        .finally((ok) => {
+          popupProfileEdit.renderLoading(false)
+        })
     }
   }
 )
@@ -77,21 +85,34 @@ buttonOpenPopupProfile.addEventListener('click', function () {
   jobInput.value = profileName.textContent
 })
 
+function createCard(item) {
+  const card = new Card(
+    item,
+    '#template-card',
+    api,
+    {handleCardClick: () => {
+      popupWithImage.open(item.link, item.name);
+    }});
+
+  const cardElement = card.generate();
+
+  return cardElement;
+}
+
 export const section = new Section({
   items: [],
   renderer: (item) => {
-    const card = new Card(item, '#template-card');
-    const cardElement = card.generate();
+    const cardElement = createCard(item);
     section.addItem(cardElement);
   }
-}, cardsMain);
+}, '.cards');
 
 export const userInfoTest = new UserInfoo({
   profileName: '.profile__name',
   profileProfession: '.profile__profession'
 });
 
-Promise.all([userInfoTest.getUserInfo(), api.getCards()])
+Promise.all([api.getEditProfile(), api.getCards()])
   .then(([user, cards]) => {
     profileName.textContent = user.name;
     profileProfession.textContent = user.about;
@@ -113,7 +134,7 @@ const popupAddCard = new PopupWithForm(
       popupAddCard.renderLoading(true);
       api.postCard(name, link) //вставка карточки
         .then((card) => {
-          const newCard = new Card(card, '#template-card');
+          const newCard = new Card(card, '#template-card', api);
           section.addItem(newCard.generate());
           popupAddCard.close();
         })

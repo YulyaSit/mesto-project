@@ -1,15 +1,14 @@
-import { api } from "..";
-import { userInfo } from "../utils/constants.js";
-import { popupWithImage } from "../index.js";
 export default class Card {
-  constructor(card, selector) {
+  constructor(card, selector, api, { handleCardClick }) {
     this._card = card;
     this._likes = card.likes;
     this._link = card.link;
     this._name = card.name;
     this._id = card._id;
-    this._userInfo = userInfo;
+    this._userInfo = document.querySelector('.container');
     this._selector = selector;
+    this._api = api;
+    this._handleCardClick = handleCardClick;
   }
 
   _getElement() {
@@ -21,23 +20,21 @@ export default class Card {
 
     return cardClone;
   }
-  _setLike(evt, element) {
-    const userLikes = element.querySelector('.card__likes');
-
+  _setLike(evt) {
     if (!evt.target.classList.contains('card__button-like_active')) {
-      api.pasteLike(this._id)
+      this._api.pasteLike(this._id)
         .then((card) => {
           evt.target.classList.add('card__button-like_active');
-          userLikes.textContent = card.likes.length;
+          this._userLikes.textContent = card.likes.length;
         })
         .catch((err) => {
           console.log(err);
         });
     } else {
-      api.deleteLike(this._id)
+      this._api.deleteLike(this._id)
         .then((card) => {
           evt.target.classList.remove('card__button-like_active');
-          userLikes.textContent = card.likes.length;
+          this._userLikes.textContent = card.likes.length;
         })
         .catch((err) => {
           console.log(err);
@@ -45,56 +42,50 @@ export default class Card {
     }
   }
 
-  _deleteCard(element) {
-    api.deleteCard(this._card)
+  _deleteCard() {
+    this._api.deleteCard(this._card)
       .then((card) => {
-        card._id = element.remove()
+        card._id = this._element.remove()
       })
       .catch((err) => {
         console.log(err);
       });
   }
 
-  _setEventListeners(element) {
-    const cardImage = element.querySelector('.card__image');
-    const cardButtonLike = element.querySelector('.card__button-like')
-    const cardUrn = element.querySelector('.button__urn');
+  _setEventListeners() {
+    this._cardImage.addEventListener('click', this._handleCardClick)
 
-    cardImage.addEventListener('click', () => {
-      popupWithImage.open(this._link, this._name)
-    })
-
-    cardButtonLike.addEventListener('click', (evt) => {
-      this._setLike(evt, element);
+    this._cardButtonLike.addEventListener('click', (evt) => {
+      this._setLike(evt);
     });
 
-    cardUrn.addEventListener('click', () => { this._deleteCard(element) });
+    this._cardUrn.addEventListener('click', () => { this._deleteCard() });
   }
 
   generate() {
     this._element = this._getElement();
 
-    const userLikes = this._element.querySelector('.card__likes');
-    const cardImage = this._element.querySelector('.card__image');
-    const cardUrn = this._element.querySelector('.button__urn');
-    const cardButtonLike = this._element.querySelector('.card__button-like')
+    this._userLikes = this._element.querySelector('.card__likes');
+    this._cardImage = this._element.querySelector('.card__image');
+    this._cardUrn = this._element.querySelector('.button__urn');
+    this._cardButtonLike = this._element.querySelector('.card__button-like')
 
     this._element.querySelector('.card__name').textContent = this._name;
-    cardImage.src = this._link;
-    cardImage.alt = this._name;
-    userLikes.textContent = this._likes.length;
+    this._cardImage.src = this._link;
+    this._cardImage.alt = this._name;
+    this._userLikes.textContent = this._likes.length;
 
     if (this._userInfo.id === this._card.owner._id) { //условие чтобы урна была только на моих карточках
-      cardUrn.classList.add('button__urn_active')
+      this._cardUrn.classList.add('button__urn_active')
     }
 
     this._likes.forEach((like) => {
       if (like._id === this._userInfo.id) {
-        cardButtonLike.classList.add('card__button-like_active')
+        this._cardButtonLike.classList.add('card__button-like_active')
       }
     });
 
-    this._setEventListeners(this._element);
+    this._setEventListeners();
 
     return this._element;
   }
