@@ -1,80 +1,85 @@
 export default class Api {
   constructor(options) {
-    this.baseUrl = options.baseUrl;
-    this.headers = options.headers;
-    this.settings = options.settings
+    this._baseUrl = options.baseUrl;
+    this._headers = options.headers;
   }
+
+  _checkResponse() {
+    return (res) => {
+      if (res.ok) {
+        return res.json()
+      }
+      return Promise.reject(`Ошибка: ${res.status}`)
+    }
+  }
+
+  _request(url, options) {
+    return fetch(`${this._baseUrl}` + url, options).then(this._checkResponse())
+  }
+
   getEditProfile() { //гет запрос для информации о пользователе
-    return fetch(`${this.baseUrl}/users/me`, {
-      headers: this.headers
+    return this._request(`/users/me`, {
+      headers: this._headers
     })
-      .then(this.settings)
   }
 
   patchEditProfile(profileName, profileProfession) {
-    return fetch(`${this.baseUrl}/users/me`, { //патч запрос на изменение имени и профессии
+    return this._request(`/users/me`, { //патч запрос на изменение имени и профессии
       method: 'PATCH',
-      headers: this.headers,
+      headers: this._headers,
       body: JSON.stringify({
         name: profileName,
         about: profileProfession
       })
-        .then(this.settings)
     })
   }
 
   patchEditAvatar(profileAvatar) { //патч запрос для изменения аватара
-    return fetch(`${this.baseUrl}/users/me/avatar`, {
+    return this._request(`/users/me/avatar`, {
       method: 'PATCH',
-      headers: this.headers,
+      headers: this._headers,
       body: JSON.stringify({
         avatar: profileAvatar
       })
-        .then(this.settings)
     })
   }
 
   getCards() { //гет запрос карточек 
-    return fetch(`${this.baseUrl}/cards`, {
-      headers: this.headers
+    return this._request(`/cards`, {
+      headers: this._headers
     })
-      .then(this.settings)
   }
 
   postCard(name, link) {
-    return fetch(`${this.baseUrl}/cards`, { //пост запрос чтобы запостить карточку
+    return this._request(`/cards`, { //пост запрос чтобы запостить карточку
       method: 'POST',
-      headers: this.headers,
+      headers: this._headers,
       body: JSON.stringify({
         name: name,
         link: link
       })
     })
-      .then(this.settings)
   }
 
   deleteCard(card) { //делит запрос для удаления карточки
-    return fetch(`${this.baseUrl}/cards/${card._id}`, {
+    return this._request(`/cards/${card._id}`, {
       method: 'DELETE',
-      headers: this.headers,
+      headers: this._headers,
     })
-      .then(this.settings)
   }
 
   pasteLike(card) { //пут запрос для постановки лайка
-    return fetch(`${this.baseUrl}/cards/likes/${card}`, {
+    return this._request(`/cards/likes/${card}`, {
       method: 'PUT',
-      headers: this.headers
+      headers: this._headers
     })
-      .then(this.settings)
   }
 
 
   deleteLike(card) { //делит запрос для удаления лайка
-    return fetch(`${this.baseUrl}/cards/likes/${card}`, {
+    return this._request(`/cards/likes/${card}`, {
       method: 'DELETE',
-      headers: this.headers
+      headers: this._headers
     })
-      .then(this.settings)
   }
 }

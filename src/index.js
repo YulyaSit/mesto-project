@@ -24,12 +24,6 @@ export const api = new Api({
   headers: {
     authorization: '3720e224-e620-430e-9649-e363bea978d6',
     'Content-Type': 'application/json'
-  },
-  settings: (res) => {
-    if (res.ok) {
-      return res.json()
-    }
-    return Promise.reject(`Ошибка: ${res.status}`)
   }
 })
 
@@ -52,7 +46,6 @@ const popupAvatarEdit = new PopupWithForm(
     }
   }
 );
-
 popupAvatarEdit.setEventListeners();
 avatarEditProfile.addEventListener('click', function () { //открытие попапа с редактированием аватара
   popupAvatarEdit.open();
