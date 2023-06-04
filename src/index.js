@@ -70,12 +70,7 @@ const popupProfileEdit = new PopupWithForm(
       popupProfileEdit.renderLoading(true);
       api.patchEditProfile(name, profession)
         .then(data => {
-          userInfoOwn.setUserInfo({
-            name: data.name,
-            about: data.about,
-            avatar: data.avatar,
-            _id: data._id
-          })
+          userInfoOwn.setUserInfo(data)
           popupProfileEdit.close();
         })
         .catch((err) => {
@@ -120,12 +115,7 @@ export const section = new Section({
 
 Promise.all([api.getEditProfile(), api.getCards()])
   .then(([user, cards]) => {
-    userInfoOwn.setUserInfo(
-      { name: user.name,
-        about: user.about,
-        avatar: user.avatar,
-        _id: user._id }
-      );
+    userInfoOwn.setUserInfo(user);
     section.setItems(cards);
 
     section.renderItems();
@@ -141,12 +131,8 @@ const popupAddCard = new PopupWithForm(
       popupAddCard.renderLoading(true);
       api.postCard(name, link) //вставка карточки
         .then((card) => {
-          const newCard = new Card(card, '#template-card', api, {
-            handleCardClick: function () {
-              popupWithImage.open(item.link, item.name)
-            }
-          });
-          section.addItem(newCard.generate());
+          const newCard = createCard(card);
+          section.addItem(newCard);
           popupAddCard.close();
         })
         .catch((err) => {
